@@ -1,0 +1,18 @@
+services:
+  db:
+    container_name: quick_queue_db
+    image: mysql
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./qq_full.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql-data:
+
