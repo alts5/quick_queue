@@ -1,0 +1,48 @@
+<router-outlet>
+  <app-time></app-time>
+
+  <div class="container">
+    <h1>{{ title }}</h1>
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+      <div class="forms">
+        <div class="form-column">
+          <div class="form-group">
+            <label for="fullName">Ваше ФИО *</label>
+            <input type="text" id="fullName" formControlName="fullName" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="applicantCategory">Категория заявителя *</label>
+            <select id="applicantCategory" formControlName="applicantCategory" class="form-control">
+              <option *ngFor="let category of applicantCategories" [value]="category">{{ category }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-column">
+          <div class="form-group">
+            <label for="documentType">Выберите тип подтверждающего документа *</label>
+            <select id="documentType" formControlName="documentType" class="form-control">
+              <option *ngFor="let type of documentTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="documentNumber">Регистрационный номер подтверждающего документа *</label>
+            <input type="text" id="documentNumber" formControlName="documentNumber" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="consent" formControlName="consent" class="form-check-input">
+        <label class="form-check-label" for="consent">Даю согласие на обработку персональных данных</label>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn btn-secondary">На главную</button>
+        <button type="submit" class="btn btn-primary">Продолжить</button>
+      </div>
+    </form>
+
+  </div>
+  <p>{{ footerText }}</p>
+</router-outlet>

@@ -1,2 +1,45 @@
 
 qq_full.sql
+
+# Compiled output
+qqfront/dist
+qqfront/tmp
+qqfront/out-tsc
+qqfront/bazel-out
+
+# Node
+qqfront/node_modules/
+qqfront/npm-debug.log
+qqfront/yarn-error.log
+
+# IDEs and editors
+qqfront/.idea/
+qqfront/.project
+qqfront/.classpath
+qqfront/.c9/
+qqfront/*.launch
+qqfront/.settings/
+qqfront/*.sublime-workspace
+
+# Visual Studio Code
+qqfront/.vscode/*
+qqfront/.vscode/settings.json
+qqfront/.vscode/tasks.json
+qqfront/.vscode/launch.json
+qqfront/.vscode/extensions.json
+qqfront/.history/*
+
+# Miscellaneous
+qqfront/.angular/cache
+qqfront/.sass-cache/
+qqfront/connect.lock
+qqfront/coverage
+qqfront/libpeerconnection.log
+qqfront/testem.log
+qqfront/typings
+
+# System files
+qqfront/.DS_Store
+qqfront/Thumbs.db
+
+qqfront/node_modules/

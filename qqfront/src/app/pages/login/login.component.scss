@@ -1,0 +1,104 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+.container form{
+  width: 90%;
+}
+
+.container h1 {
+  font-size: 2rem;
+  font-family: MyriadPro;
+}
+
+.forms {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+.form-column {
+  padding-top: 35px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0.5rem;
+}
+
+label {
+  font-family: MyriadPro, sans-serif;
+  margin: 0 auto;
+}
+
+input, select {
+  padding: 0.5rem;
+  border: 2px solid #0471dd;
+  border-radius: 25px;
+  font-size: 1.8rem;
+  height: 5rem;
+  border-radius: 5rem;
+  box-sizing: border-box;
+}
+
+.form-check{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  label{
+    margin: 0;
+    font-size: 1.5rem;
+    vertical-align: center;
+    align-self: center;
+    margin-left: 1rem;
+  }
+  input{
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+
+.form-check-input {
+  width: 200px;
+  height: 12px;
+  vertical-align: middle;
+}
+
+.form-check-label {
+  font-size: 14px;
+  line-height: normal;
+}
+
+.button-group{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+
+@media (max-width: 990px) {
+  .form-column{
+    width: 2 rem;
+  }
+}
+
+@media (max-width: 770px) {
+  .container h1 {
+    font-size: 1.5rem;
+  }
+  .forms{
+    flex-direction: column;
+  }
+}
