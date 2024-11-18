@@ -2,6 +2,8 @@ val kotlin_version: String by project
 val logback_version: String by project
 val exposed_version: String by project
 val h2_version: String by project
+val ktormVersion: String by project
+val mysqlVersion: String by project
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -42,6 +44,10 @@ dependencies {
     implementation("io.ktor:ktor-server-websockets-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("org.ktorm:ktorm-core:$ktormVersion")
+    implementation("mysql:mysql-connector-java:$mysqlVersion")
+    implementation("org.ktorm:ktorm-jackson:$ktormVersion")
+    implementation("org.ktorm:ktorm-support-mysql:$ktormVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
