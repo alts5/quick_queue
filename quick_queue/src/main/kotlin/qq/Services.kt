@@ -1,5 +1,4 @@
 package qq
-import com.sun.jdi.IntegerType
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import java.util.UUID
@@ -56,15 +55,12 @@ class DocumentTypesService(): BaseService() {
         return null
     }
 
-    public fun get_all_document_types(id: Int): Query? {
-        if (id > 0) {
-            return database.from(DocumentTypes)
-                .select(DocumentTypes.label, DocumentTypes.description)
-                .where {
-                    (DocumentTypes.stat notEq "Заблокировано")
-                }
-        }
-        return null
+    public fun get_all_document_types(): Query {
+        return database.from(DocumentTypes)
+            .select(DocumentTypes.label, DocumentTypes.description)
+            .where {
+                (DocumentTypes.stat notEq "Заблокировано")
+            }
     }
 }
 
@@ -98,15 +94,12 @@ class CategoriesService(): BaseService() {
         return null
     }
 
-    public fun get_all_categories(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Categories)
-                .select(Categories.name, Categories.description)
-                .where {
-                    (Categories.stat notEq "Заблокировано")
-                }
-        }
-        return null
+    public fun get_all_categories(): Query {
+        return database.from(Categories)
+            .select(Categories.name, Categories.description)
+            .where {
+                (Categories.stat notEq "Заблокировано")
+            }
     }
 }
 
@@ -140,15 +133,12 @@ class ServicesService(): BaseService() {
         return null
     }
 
-    public fun get_all_services(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Services)
-                .select(Services.name, Services.description)
-                .where {
-                    (Services.stat notEq "Заблокировано")
-                }
-        }
-        return null
+    public fun get_all_services(): Query {
+        return database.from(Services)
+            .select(Services.name, Services.description)
+            .where {
+                (Services.stat notEq "Заблокировано")
+            }
     }
 }
 
@@ -181,16 +171,13 @@ class WindowsService(): BaseService() {
         return null
     }
 
-    public fun get_all_windows(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Windows)
-                .select(Windows.label)
-                .where {
-                    (Windows.stat notEq "Заблокировано")
-                }
-        }
-        return null
-    }
+    public fun get_all_windows(): Query {
+        return database.from(Windows)
+            .select(Windows.label)
+            .where {
+                (Windows.stat notEq "Заблокировано")
+            }
+}
 }
 
 class WindowService(): BaseService() {
@@ -222,17 +209,15 @@ class WindowService(): BaseService() {
         return null
     }
 
-    public fun get_all_windows(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Windows)
-                .select(Windows.label)
-                .where {
-                    (Windows.stat notEq "Заблокировано")
-                }
-        }
-        return null
+    public fun get_all_windows(): Query {
+        return database.from(Windows)
+            .select(Windows.label)
+            .where {
+                (Windows.stat notEq "Заблокировано")
+            }
     }
 }
+
 class WindowsServices(): BaseService() {
     public fun insert_window(label: String) {
         if (!label.equals("")) {
@@ -262,15 +247,12 @@ class WindowsServices(): BaseService() {
         return null
     }
 
-    public fun get_all_staffs(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Windows)
-                .select(Windows.label)
-                .where {
-                    (Windows.stat notEq "Заблокировано")
-                }
-        }
-        return null
+    public fun get_all_staffs(): Query {
+        return database.from(Windows)
+            .select(Windows.label)
+            .where {
+                (Windows.stat notEq "Заблокировано")
+            }
     }
 }
 
@@ -301,15 +283,12 @@ class ApplicantsService(): BaseService() {
         return null
     }
 
-    public fun get_all_applicants(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Applicants)
-                .select(Applicants.hash)
-                .where {
-                    (Applicants.stat notEq "Заблокирован")
-                }
-        }
-        return null
+    public fun get_all_applicants(): Query {
+        return database.from(Applicants)
+            .select(Applicants.hash)
+            .where {
+                (Applicants.stat notEq "Заблокирован")
+            }
     }
 }
 
@@ -344,15 +323,12 @@ class StaffService(): BaseService() {
         return null
     }
 
-    public fun get_all_staffs(id: Int): Query? {
-        if (id > 0) {
-            return database.from(Staff)
-                .select(Staff.name, Staff.login, Staff.password)
-                .where {
-                    (Staff.stat notEq "Заблокирован")
-                }
-        }
-        return null
+    public fun get_all_staffs(): Query {
+        return database.from(Staff)
+            .select(Staff.name, Staff.login, Staff.password)
+            .where {
+                (Staff.stat notEq "Заблокирован")
+            }
     }
 }
 
