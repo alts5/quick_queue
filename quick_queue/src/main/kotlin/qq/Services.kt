@@ -251,7 +251,7 @@ class WindowsServices(): BaseService() {
             }
         }
     }
-    public fun get_window(id: Int): Query? {
+    public fun get_staff(id: Int): Query? {
         if (id > 0) {
             return database.from(Windows)
                 .select(Windows.label)
@@ -262,7 +262,7 @@ class WindowsServices(): BaseService() {
         return null
     }
 
-    public fun get_all_windows(id: Int): Query? {
+    public fun get_all_staffs(id: Int): Query? {
         if (id > 0) {
             return database.from(Windows)
                 .select(Windows.label)
@@ -274,8 +274,47 @@ class WindowsServices(): BaseService() {
     }
 }
 
+class ApplicantsService(): BaseService() {
+    public fun insert_applicant() {
+        database.insert(Applicants) {
+            set(it.hash, UUID.randomUUID())
+        }
+    }
+    public fun delete_applicant(id: Int) {
+        if (id > 0) {
+            database.update(Applicants) {
+                set(it.stat, "Заблокирован")
+                where {
+                    it.applicantId eq id
+                }
+            }
+        }
+    }
+    public fun get_applicant(id: Int): Query? {
+        if (id > 0) {
+            return database.from(Applicants)
+                .select(Applicants.hash)
+                .where {
+                    (Applicants.applicantId eq id) and (Applicants.stat notEq "Заблокирован")
+                }
+        }
+        return null
+    }
+
+    public fun get_all_applicants(id: Int): Query? {
+        if (id > 0) {
+            return database.from(Applicants)
+                .select(Applicants.hash)
+                .where {
+                    (Applicants.stat notEq "Заблокирован")
+                }
+        }
+        return null
+    }
+}
+
 class StaffService(): BaseService() {
-    public fun insert_window(name: String, login: String, password: String) {
+    public fun insert_staff(name: String, login: String, password: String) {
         if (!name.equals("") && !login.equals("") && !password.equals("")) {
             database.insert(Staff) {
                 set(it.name, name)
@@ -294,7 +333,7 @@ class StaffService(): BaseService() {
             }
         }
     }
-    public fun get_window(id: Int): Query? {
+    public fun get_staff(id: Int): Query? {
         if (id > 0) {
             return database.from(Staff)
                 .select(Staff.name, Staff.login, Staff.password)
@@ -305,7 +344,7 @@ class StaffService(): BaseService() {
         return null
     }
 
-    public fun get_all_windows(id: Int): Query? {
+    public fun get_all_staffs(id: Int): Query? {
         if (id > 0) {
             return database.from(Staff)
                 .select(Staff.name, Staff.login, Staff.password)
