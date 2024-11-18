@@ -1,23 +1,9 @@
 package qq
-
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import qq.plugins.*
+import org.ktorm.dsl.forEach
 
 
 fun main() {
     val docs = DocumentTypesService()
-    print(docs.get_all_document_types().toString())
-
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
+    print(docs.get_all_document_types().forEach { row -> println(row[DocumentTypes.label]) })
 }
 
-fun Application.module() {
-    configureSerialization()
-    configureSecurity()
-    configureHTTP()
-    configureSockets()
-    configureRouting()
-}

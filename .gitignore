@@ -43,3 +43,12 @@ qqfront/.DS_Store
 qqfront/Thumbs.db
 
 qqfront/node_modules/
+/.idea
+/quick_queue/.tmp
+quick_queue/caches/8.4/fileHashes/resourceHashesCache.bin
+/quick_queue/caches
+/quick_queue/kotlin-profile
+/quick_queue/native
+/quick_queue/wrapper
+/quick_queue/daemon
+/quick_queue/jdks

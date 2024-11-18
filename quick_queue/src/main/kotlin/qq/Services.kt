@@ -11,10 +11,11 @@ open class BaseService {
         url = "jdbc:mysql://"
                 + System.getenv("DB_HOST") + ":"
                 + System.getenv("DB_PORT") + "/"
-                + System.getenv("DB_NAME"),
+                + System.getenv("DB_NAME") +
+                "?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Moscow&useSSL=false",
         driver = "com.mysql.jdbc.Driver",
         user = System.getenv("DB_USER"),
-        password = System.getenv("DB_PASSWORD")
+        password = System.getenv("DB_PASSWORD"),
     )
     public fun md5(text: String): String {
         val crypt = MessageDigest.getInstance("MD5");
