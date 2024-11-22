@@ -26,7 +26,7 @@ open class BaseService {
     }
 }
 
-class DocumentTypesService(): BaseService() {
+class DocumentTypesDAO(): BaseDAO() {
     public fun insert_document_type(label: String, description: String) {
         if (!label.equals("") && !description.equals("")) {
             database.insert(DocumentTypes) {
@@ -81,7 +81,7 @@ class DocumentTypesService(): BaseService() {
     }
 }
 
-class CategoriesService(): BaseService() {
+class CategoriesDAO(): BaseDAO() {
     public fun insert_category(name: String, description: String) {
         if (!name.equals("") && !description.equals("")) {
             database.insert(Categories) {
@@ -134,7 +134,7 @@ class CategoriesService(): BaseService() {
     }
 }
 
-class ServicesService(): BaseService() {
+class ServicesDAO(): BaseDAO() {
     public fun insert_service(name: String, description: String) {
         if (!name.equals("") && !description.equals("")) {
             database.insert(Services) {
@@ -187,7 +187,7 @@ class ServicesService(): BaseService() {
     }
 }
 
-class WindowsService(): BaseService() {
+class WindowsDAO(): BaseDAO() {
     public fun insert_window(label: String) {
         if (!label.equals("")) {
             database.insert(Windows) {
@@ -237,7 +237,7 @@ class WindowsService(): BaseService() {
     }
 }
 
-class ApplicantsService(): BaseService() {
+class ApplicantsDAO(): BaseDAO() {
     public fun insert_applicant() {
         database.insert(Applicants) {
             set(it.hash, UUID.randomUUID())
@@ -285,7 +285,7 @@ class ApplicantsService(): BaseService() {
     }
 }
 
-class StaffService(): BaseService() {
+class StaffDAO(): BaseDAO() {
     public fun insert_staff(name: String, login: String, password: String) {
         if (!name.equals("") && !login.equals("") && !password.equals("")) {
             database.insert(Staff) {
@@ -342,7 +342,7 @@ class StaffService(): BaseService() {
 }
 
 
-class CategoriesServicesService(): BaseService() {
+class CategoriesServicesDAO(): BaseDAO() {
     public fun insert_category_service(category: Int, service: Int) {
         if (category > 0 && service > 0) {
             database.insert(CategoriesServices) {
@@ -395,7 +395,7 @@ class CategoriesServicesService(): BaseService() {
     }
 }
 
-class WindowsStaffService(): BaseService() {
+class WindowsStaffDAO(): BaseDAO() {
     public fun insert_window_staff(window: Int, staff: Int) {
         if (window > 0 && staff > 0) {
             database.insert(WindowsStaffs) {
@@ -450,7 +450,7 @@ class WindowsStaffService(): BaseService() {
     }
 }
 
-class ApplicantsDocumentsService(): BaseService() {
+class ApplicantsDocumentsDAO(): BaseDAO() {
     public fun insert_applicant_service(applicant: Int, documentType: Int, documentNumber: String, documentOwner: String) {
         if (applicant > 0 && documentType > 0 && !documentNumber.equals("") && !documentOwner.equals("")) {
             database.insert(ApplicantsDocuments) {
@@ -509,7 +509,7 @@ class ApplicantsDocumentsService(): BaseService() {
     }
 }
 
-class ApplicantsCategoriesWindowsService(): BaseService() {
+class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
     public fun insert_applicant_category_window(applicant: Int, categoryService: Int, windowStaff: Int) {
         if (applicant > 0 && categoryService > 0 && windowStaff > 0) {
             database.insert(Main) {
