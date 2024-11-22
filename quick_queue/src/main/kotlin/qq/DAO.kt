@@ -8,7 +8,7 @@ import java.util.Date
 import java.text.SimpleDateFormat
 
 
-open class BaseService {
+open class BaseDAO {
     val database = Database.connect(
         url = "jdbc:mysql://"
                 + System.getenv("DB_HOST") + ":"
