@@ -2,7 +2,9 @@
   <app-time></app-time>
 
   <div class="container">
-    <h1>{{ title }}</h1>
+    <div class="header">
+      <h2>{{ title }}</h2>
+    </div>
     <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
       <div class="forms">
         <div class="form-column">
@@ -32,17 +34,25 @@
           </div>
         </div>
       </div>
+      <div class="attention">
+        <p>
+          {{ attentionText }}
+        </p>
+      </div>
       <div class="form-check">
         <input type="checkbox" id="consent" formControlName="consent" class="form-check-input">
         <label class="form-check-label" for="consent">Даю согласие на обработку персональных данных</label>
       </div>
 
       <div class="button-group">
-        <button type="button" class="btn btn-secondary">На главную</button>
-        <button type="submit" class="btn btn-primary">Продолжить</button>
+        <div class="button-center">
+          <div type="button" class="btn btn-secondary">На главную</div>
+          <div type="submit" class="btn btn-primary">Продолжить</div>
+        </div>
       </div>
     </form>
-
   </div>
-  <p>{{ footerText }}</p>
+  <div class="footer">
+    <p>{{ footerText }}</p>
+  </div>
 </router-outlet>
