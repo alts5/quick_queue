@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>Панель администрирования АПК Quick Queue</title>
+	<link rel = 'shortcut icon' href = 'favicon.png'>
+	<link rel = 'stylesheet' href = 'design/theme.css'>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap" rel="stylesheet">
+	
+	<script src = 'jquery-3.7.1.min.js'></script>
+	<script src = 'service.js'></script>
+	<script src = 'jquery.maskedinput.min.js'></script>
+</head>
+<body onload = "if (getUser()) window.location.href = '/workroom'" class = "auth">
+	<div class = 'modal_window' style = "height: 400px; width: 350px;">
+		<h2>Вход в панель управления</h2>
+		<form id = 'auth_form'>
+			<h3>Логин</h3>
+			<input name = 'user_login' type = 'text' class = 'input_base' autocomplete = "off">
+			<h3>Пароль</h3>
+			<input name = 'user_password' type = 'password' class = 'input_base' >
+			<button class = 'button_base' type = 'submit'>Войти</button>
+		</form>
+		<div class = "error_base">Логин или пароль неверный</div>
+	</div>
+</body>
+</html>
