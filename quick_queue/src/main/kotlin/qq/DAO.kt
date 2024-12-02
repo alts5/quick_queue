@@ -76,9 +76,9 @@ class DocumentTypesDAO(): BaseDAO() {
      * Извлекает тип документа по его идентификатору.
      *
      * @param id - идентификатор типа документа для извлечения.
-     * @return список карт, содержащих информацию о полученном типе документа, или значение null, если оно не найдено.
+     * @return Карту, содержащую информацию о полученном типе документа, или значение null, если оно не найдено.
      */
-    public fun get_document_type(id: Int): List<Map<String, String?>>? {
+    public fun get_document_type(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(DocumentTypes)
                 .select(DocumentTypes.label, DocumentTypes.description, DocumentTypes.documentTypeId)
@@ -91,7 +91,7 @@ class DocumentTypesDAO(): BaseDAO() {
                         "label" to row[DocumentTypes.label],
                         "description" to row[DocumentTypes.description]
                     )
-                }
+                }[0]
         }
         return null
     }
@@ -176,9 +176,9 @@ class CategoriesDAO(): BaseDAO() {
     /**
      * Извлекает все активные категории.
      *
-     * @return Список карт, содержащих всю информацию об активных категориях.
+     * @return Карту, содержащую всю информацию об активных категориях.
      */
-    public fun get_all_categories(): List<Map<String, String?>> {
+    public fun get_all_categories(): Map<String, String?> {
         return database.from(Categories)
             .select(Categories.name, Categories.description, Categories.categoryId)
             .where {
@@ -190,7 +190,7 @@ class CategoriesDAO(): BaseDAO() {
                     "name" to row[Categories.name],
                     "description" to row[Categories.description]
                 )
-            }
+            }[0]
     }
 }
 
@@ -232,9 +232,9 @@ class ServicesDAO(): BaseDAO() {
      * Извлекает службу по ее идентификатору.
      *
      * @param id Идентификатор службы для извлечения.
-     * @return Список карт, содержащих извлеченную информацию о службе, или null, если не найдено.
+     * @return Карту, содержащую извлеченную информацию о службе, или null, если не найдено.
      */
-    public fun get_service(id: Int): List<Map<String, String?>>? {
+    public fun get_service(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Services)
                 .select(Services.name, Services.description, Services.serviceId)
@@ -247,7 +247,7 @@ class ServicesDAO(): BaseDAO() {
                         "name" to row[Services.name],
                         "description" to row[Services.description]
                     )
-                }
+                }[0]
         }
         return null
     }
@@ -271,6 +271,90 @@ class ServicesDAO(): BaseDAO() {
             }
     }
 }
+
+/**
+ * Представляет объект доступа к данным (DAO) для операций Windows.
+ */
+class WindowsDAO : BaseDAO() {
+
+    /**
+     * Вставляет новое окно с заданной меткой.
+     *
+     * @param label Метка для нового окна.
+     * @throws IllegalArgumentException, если метка пустая.
+     */
+    public fun insert_window(label: String) {
+        if (!label.equals("")) {
+            database.insert(Windows) {
+                set(it.label, label)
+            }
+        }
+    }
+
+    /**
+     * Помечает окно с заданным идентификатором как заблокированное.
+     *
+     * @param id Идентификатор окна для блокировки.
+     * @throws IllegalArgumentException, если идентификатор не положительный.
+     */
+    public fun delete_window(id: Int) {
+        if (id > 0) {
+            database.update(Windows) {
+                set(it.stat, "Заблокировано")
+                where {
+                    it.windowId eq id
+                }
+            }
+        }
+    }
+
+    /**
+     * Извлекает сведения об окне с указанным идентификатором.
+     *
+     * @param id Идентификатор окна для извлечения.
+     * @return Карта, содержащая идентификатор службы, имя и описание окна,
+     * или null, если окно не найдено или заблокировано.
+     * @throws IllegalArgumentException, если идентификатор не положительный.
+     */
+    public fun get_window(id: Int): Map<String, String?>? {
+        if (id > 0) {
+            return database.from(Services)
+                .select(Services.name, Services.description, Services.serviceId)
+                .where {
+                    (Services.serviceId eq id) and (Services.stat notEq "Заблокировано")
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[Services.serviceId].toString(),
+                        "name" to row[Services.name],
+                        "description" to row[Services.description]
+                    )
+                }[0]
+        }
+        return null
+    }
+
+    /**
+     * Извлекает все доступные службы, которые не заблокированы.
+     *
+     * @return Список карт, содержащих идентификаторы служб, названия и описания.
+     */
+    public fun get_all_services(): List<Map<String, String?>> {
+        return database.from(Services)
+            .select(Services.name, Services.description)
+            .where {
+                (Services.stat notEq "Заблокировано")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Services.serviceId].toString(),
+                    "name" to row[Services.name],
+                    "description" to row[Services.description]
+                )
+            }
+    }
+}
+
 
 /**
  * Объект доступа к данным для управления окнами и ассоциациями персонала.
@@ -311,9 +395,9 @@ class WindowsStaffDAO(): BaseDAO() {
      * Извлекает ассоциацию окна-штафт по ее идентификатору.
      *
      * @param id Идентификатор ассоциации для извлечения.
-     * @return Список карт, содержащих извлеченную информацию об ассоциации, или null, если она не найдена.
+     * @return Карту, содержащую извлеченную информацию об ассоциации, или null, если она не найдена.
      */
-    public fun get_window_staff(id: Int): List<Map<String, String>>? {
+    public fun get_window_staff(id: Int): Map<String, String>? {
         if (id > 0) {
             return database.from(WindowsStaffs)
                 .select(WindowsStaffs.window, WindowsStaffs.staff, WindowsStaffs.windowsStaffsId)
@@ -326,7 +410,7 @@ class WindowsStaffDAO(): BaseDAO() {
                         "window" to row[WindowsStaffs.window].toString(),
                         "staff" to row[WindowsStaffs.staff].toString(),
                     )
-                }
+                }[0]
 
         }
         return null
@@ -334,7 +418,7 @@ class WindowsStaffDAO(): BaseDAO() {
     /**
      * Извлекает все активные ассоциации окон и персонала.
      *
-     * @return Список карт, содержащих всю информацию об активных ассоциациях.
+     * @return Карту, содержащую всю информацию об активных ассоциациях.
      */
     public fun get_all_windows_staff(): List<Map<String, String>> {
         return database.from(WindowsStaffs)
@@ -393,9 +477,9 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
      * Извлекает связь заявителя с услугой по ее идентификатору.
      *
      * @param id Идентификатор связи для извлечения.
-     * @return Список карт, содержащих извлеченную информацию об ассоциации, или null, если не найдено.
+     * @return Карту, содержащую извлеченную информацию об ассоциации, или null, если не найдено.
      */
-    public fun get_applicant_service(id: Int): List<Map<String, String?>>? {
+    public fun get_applicant_service(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(ApplicantsDocuments)
                 .select(ApplicantsDocuments.applicant, ApplicantsDocuments.documentType, ApplicantsDocuments.documentNumber, ApplicantsDocuments.documentOwner, ApplicantsDocuments.applicantsDocumentsId)
@@ -410,7 +494,7 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
                         "documentNumber" to row[ApplicantsDocuments.documentNumber],
                         "documentOwner" to row[ApplicantsDocuments.documentOwner]
                     )
-                }
+                }[0]
         }
         return null
     }
@@ -476,9 +560,9 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
      * Извлекает связь между кандидатом и категорией и окном по ее идентификатору.
      *
      * @param id Идентификатор связи для извлечения.
-     * @return Список карт, содержащих извлеченную информацию об ассоциации, или null, если не найдено.
+     * @return Карту, содержащую извлеченную информацию об ассоциации, или null, если не найдено.
      */
-    public fun get_applicant_category_window(id: Int): List<Map<String, String>>? {
+    public fun get_applicant_category_window(id: Int): Map<String, String>? {
         if (id > 0) {
             return database.from(Main)
                 .select(Main.applicant, Main.categoryService, Main.windowStaff, Main.applicantsWsId)
@@ -492,7 +576,7 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
                         "categoryService" to row[Main.categoryService].toString(),
                         "windowStaff" to row[Main.windowStaff].toString()
                     )
-                }
+                }[0]
         }
         return null
     }
