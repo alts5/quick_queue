@@ -318,16 +318,15 @@ class WindowsDAO : BaseDAO() {
      */
     public fun get_window(id: Int): Map<String, String?>? {
         if (id > 0) {
-            return database.from(Services)
-                .select(Services.name, Services.description, Services.serviceId)
+            return database.from(Windows)
+                .select(Windows.label, Windows.windowId)
                 .where {
-                    (Services.serviceId eq id) and (Services.stat notEq "Заблокировано")
+                    (Windows.windowId eq id) and (Services.stat notEq "Заблокировано")
                 }
                 .map { row ->
                     mapOf(
-                        "id" to row[Services.serviceId].toString(),
-                        "name" to row[Services.name],
-                        "description" to row[Services.description]
+                        "id" to row[Windows.windowId].toString(),
+                        "label" to row[Windows.label],
                     )
                 }[0]
         }
@@ -339,17 +338,77 @@ class WindowsDAO : BaseDAO() {
      *
      * @return Список карт, содержащих идентификаторы служб, названия и описания.
      */
-    public fun get_all_services(): List<Map<String, String?>> {
-        return database.from(Services)
-            .select(Services.name, Services.description)
+    public fun get_all_windows(): List<Map<String, String?>> {
+        return database.from(Windows)
+            .select(Windows.label, Windows.windowId)
             .where {
-                (Services.stat notEq "Заблокировано")
+                (Windows.stat notEq "Заблокировано")
             }
             .map { row ->
                 mapOf(
-                    "id" to row[Services.serviceId].toString(),
-                    "name" to row[Services.name],
-                    "description" to row[Services.description]
+                    "id" to row[Windows.windowId].toString(),
+                    "label" to row[Windows.label],
+                )
+            }
+    }
+}
+
+class StaffDAO : BaseDAO() {
+    public fun insert_staff(name: String, login: String) {
+        if (!name.equals("") && !login.equals("")) {
+            database.insert(Staff) {
+                set(it.name, name)
+                set(it.login, login)
+            }
+        }
+    }
+
+    public fun delete_staff(id: Int) {
+        if (id > 0) {
+            database.update(Staff) {
+                set(it.stat, "Заблокировано")
+                where {
+                    it.staffId eq id
+                }
+            }
+        }
+    }
+
+    public fun get_staff(id: Int): Map<String, String?>? {
+        if (id > 0) {
+            return database.from(Staff)
+                .select(Staff.name, Staff.login,Staff.staffId, Staff.password, Staff.admin, Staff.token)
+                .where {
+                    (Staff.staffId eq id) and (Staff.stat notEq "Заблокировано")
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[Staff.staffId].toString(),
+                        "name" to row[Staff.name],
+                        "login" to row[Staff.login],
+                        "password" to row[Staff.password],
+                        "is_admin" to row[Staff.admin],
+                        "token" to row[Staff.token]
+                    )
+                }[0]
+        }
+        return null
+    }
+
+    public fun get_all_staff(): List<Map<String, String?>> {
+        return database.from(Staff)
+            .select(Staff.name, Staff.login,Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .where {
+                (Staff.stat notEq "Заблокировано")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Staff.staffId].toString(),
+                    "name" to row[Staff.name],
+                    "login" to row[Staff.login],
+                    "password" to row[Staff.password],
+                    "is_admin" to row[Staff.admin],
+                    "token" to row[Staff.token]
                 )
             }
     }

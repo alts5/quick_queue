@@ -77,6 +77,8 @@ object Staff : Table<Nothing>("staff") {
     val name = varchar("name")
     val login = varchar("login")
     val password = varchar("password")
+    val token = varchar("token")
+    val admin = varchar("admin")
     val stat = varchar("stat")
 }
 
