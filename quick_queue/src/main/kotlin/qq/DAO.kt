@@ -394,6 +394,23 @@ class StaffDAO : BaseDAO() {
         }
         return null
     }
+    public fun get_staff_by_token(token: String): Map<String, String?>? {
+        if (!token.equals("")) {
+            return database.from(Staff)
+                .select(Staff.name,Staff.staffId, Staff.admin)
+                .where {
+                    (Staff.token eq token) and (Staff.stat notEq "Заблокировано")
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[Staff.staffId].toString(),
+                        "name" to row[Staff.name],
+                        "is_admin" to row[Staff.admin]
+                    )
+                }[0]
+        }
+        return null
+    }
 
     public fun get_all_staff(): List<Map<String, String?>> {
         return database.from(Staff)

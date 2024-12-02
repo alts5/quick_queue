@@ -15,7 +15,7 @@ $('#auth_form').on('submit', function(e) {
 			window.location.href="/workroom.html";
 		},
 		error: function(data){
-			var error = data["error"] || "Произошла ошибка при обращении к API";
+			var error = data["responseText"] || "Произошла ошибка при обращении к API";
 			$('.error_base').text(error);
 			$('.error_base').css('display','block');
 		}
@@ -24,5 +24,16 @@ $('#auth_form').on('submit', function(e) {
 });
 
 function getUser() {
-	return false;
+	var f = null;
+	$.ajax({
+		'async': false,
+		url: 'http://' + pathToBackend + ':8080/userInfo',     
+		method: 'GET',
+		dataType: 'json',
+		headers: {token : sessionStorage.getItem("token")}, 
+		success: function(data){
+			f = data;
+		},
+	});
+	return f;
 }
