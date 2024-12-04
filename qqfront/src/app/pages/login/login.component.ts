@@ -19,6 +19,7 @@ import {NgForOf} from '@angular/common';
 export class LoginComponent implements OnInit {
   @Input() title: string = 'Пожалуйста, предоставьте документы, чтобы получить услугу';
   @Input() footerText: string = '<настраиваемая_надпись_снизу>';
+  @Input() attentionText: string = '* Обязательные  поля для заполнения формы'
   @Output() submitForm = new EventEmitter<any>();
 
   documentForm!: FormGroup;
