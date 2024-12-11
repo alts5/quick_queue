@@ -10,6 +10,7 @@ $(document).ready(function() {
 		"Сервисы" : "../services", 
 		"Обслуживающие окна" : "../windows", 
 		"Сотрудники" : "../staffs",
+		"Заявители" : "../staffs",
 		"Параметры" : "../settings"
 		};
 	
@@ -21,25 +22,15 @@ $(document).ready(function() {
 	}
 	if ($('.info_block').length) {
 		$.ajax({
-			url: 'http://' + pathToBackend + ':8000/dashboard-indicators',     
+			url: 'http://' + pathToBackend + ':8080/dashboardIndicators',     
 			method: 'GET',
 			dataType: 'json',
 			data: { token : sessionStorage.getItem('token') },
 			success: function(data){
-				$('#dayAccept').text(data["dayAccept"]);
-				$('#dayReject').text(data["dayReject"]);
-				$('#dayScale').text(data["dayScale"]);
-				$('#totalAccept').text(data["totalAccept"]);
-				$('#totalReject').text(data["totalReject"]);
-				$('#totalScale').text(data["totalScale"]);
-				for (var i=0; i < data["totalAgrofirms"].length; i++) {
-					var day = 0;
-					var day = 0;
-					if (data["dayAgrofirms"] != null && data["dayAgrofirms"][i] != undefined) day = data["dayAgrofirms"][i]["summ"];					
-					$('#agrofirmsStatic>tbody').append(
-						"<tr><td>" + data["totalAgrofirms"][i]["vendor"] + "</td><td>" + day + "</td><td>" + data["totalAgrofirms"][i]["summ"] + "</td></tr>"
-					);
-				}
+				$('#waiting').text(data["waiting"]);
+				$('#invited').text(data["invited"]);
+				$('#serviced').text(data["serviced"]);
+				$('#reseted').text(data["reseted"]);
 			},
 			error: function(data) {
 				$('.error_base').css("display", "block");
@@ -47,3 +38,8 @@ $(document).ready(function() {
 		});
 	}
 });
+
+function exitLK() {
+	sessionStorage.clear();
+	window.location.reload();
+}

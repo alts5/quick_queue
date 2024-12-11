@@ -50,5 +50,6 @@ dependencies {
     implementation("org.ktorm:ktorm-jackson:$ktormVersion")
     implementation("org.ktorm:ktorm-support-mysql:$ktormVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

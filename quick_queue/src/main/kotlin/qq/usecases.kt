@@ -1,5 +1,6 @@
 package qq
 
+import io.ktor.util.*
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -20,6 +21,7 @@ open class BaseUC() {
 class AdminServices(): BaseUC() {
     var windows: WindowsDAO = WindowsDAO();
     var staff: StaffDAO = StaffDAO();
+    var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
 
     public fun add_window(window_name: String) {
         windows.insert_window(window_name);
@@ -39,6 +41,14 @@ class AdminServices(): BaseUC() {
     }
     public fun get_staff_info_by_token(token: String): Map<String, String?>? {
         return staff.get_staff_by_token(token);
+    }
+    public fun get_dashboard_stat(): MutableMap<String, Int> {
+        var temp = mutableMapOf("waiting" to main.get_count_by_status("Ожидает"),
+            "invited" to main.get_count_by_status("Приглашён"),
+            "serviced" to main.get_count_by_status("Обслужен"),
+            "rejected" to main.get_count_by_status("Снято")
+            )
+        return temp
     }
 }
 

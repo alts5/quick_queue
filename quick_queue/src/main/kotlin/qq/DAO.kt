@@ -6,6 +6,8 @@ import org.ktorm.dsl.*
 import java.util.UUID
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.sql.Timestamp
+//import java.security.Timestamp
 import java.util.Date
 import java.text.SimpleDateFormat
 import kotlin.math.log
@@ -726,6 +728,18 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
                     "windowStaff" to row[Main.windowStaff].toString()
                 )
             }
+    }
+    public fun get_count_by_status(status: String): Int {
+        return database.from(Main)
+            .select(Main.stat)
+            .where {
+                (Main.stat eq status)
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Main.applicantsWsId].toString(),
+                )
+            }.size
     }
 }
 

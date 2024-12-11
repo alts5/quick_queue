@@ -1,18 +1,15 @@
 package qq.plugins
 
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import qq.AdminServices
-import qq.StaffDAO
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -29,6 +26,7 @@ fun Application.configureRouting() {
     var admin: AdminServices = AdminServices();
 
     routing {
+
         post("/authenticate") {
             val formData = call.receiveParameters()
             require(formData["user_login"] != null && formData["user_password"] != null) { "Не указаны логин и пароль" }
@@ -44,15 +42,29 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.Unauthorized, message = "Неверный логин или пароль")
             }
         }
+
         get("/userInfo") {
             val formData = call.request.headers
             val token = formData["token"] ?: ""
 
-            println(token)
             var data = admin.get_staff_info_by_token(token)
             if (data != null) {
                 var data = "{\"name\" : \"${data["name"]}\"}"
                 call.respondText(data, ContentType.Application.Json, HttpStatusCode.OK)
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        get("/dashboardIndicators") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_dashboard_stat()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
             }
             else {
                 call.respond(HttpStatusCode.Unauthorized)
@@ -67,6 +79,7 @@ fun Application.configureRouting() {
             admin.add_window(name)
             call.respondText("Form submitted successfully!")
         }
+
         post("/delete_window") {
             val formData = call.receiveParameters()
             require(formData["wid"] != null) { "Wid field is missing" }
@@ -76,6 +89,7 @@ fun Application.configureRouting() {
             call.respondText("Form submitted successfully!")
 
         }
+
         get("/check_health"){
             call.respond(HttpStatusCode.OK, "OK")
         }
