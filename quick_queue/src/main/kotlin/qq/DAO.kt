@@ -1,5 +1,6 @@
 package qq
 
+import io.ktor.http.*
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import java.util.UUID
@@ -7,10 +8,12 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.Date
 import java.text.SimpleDateFormat
+import kotlin.math.log
 
 /**
  * Базовый класс DAO, обеспечивающий подключение к базе данных и служебные методы.
  */
+
 
 open class BaseDAO {
     /**
@@ -378,6 +381,16 @@ class StaffDAO : BaseDAO() {
                 set(it.stat, "Заблокировано")
                 where {
                     it.staffId eq id
+                }
+            }
+        }
+    }
+    public fun update_token_staff(login: String, token: String) {
+        if (!login.equals("")) {
+            database.update(Staff) {
+                set(it.token, token)
+                where {
+                    it.login eq login
                 }
             }
         }

@@ -28,9 +28,11 @@ class AdminServices(): BaseUC() {
         windows.delete_window(window_id);
     }
     public fun check_user_creds(login: String, password: String): String? {
-        for (staff in staff.get_all_staff()) {
-            if (staff["login"] == login && staff["password"] == this.md5(password)) {
-                return this.md5(this.getRandomString(10));
+        for (staff_obj in staff.get_all_staff()) {
+            if (staff_obj["login"] == login && staff_obj["password"] == this.md5(password)) {
+                var token = this.md5(this.getRandomString(10))
+                staff.update_token_staff(login, token)
+                return token;
             }
         }
         return null;

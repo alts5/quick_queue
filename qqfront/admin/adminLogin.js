@@ -29,7 +29,6 @@ function getUser() {
 		'async': false,
 		url: 'http://' + pathToBackend + ':8080/userInfo',     
 		method: 'GET',
-		dataType: 'json',
 		headers: {token : sessionStorage.getItem("token")}, 
 		success: function(data){
 			f = data;

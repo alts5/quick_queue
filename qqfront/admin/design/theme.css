@@ -122,31 +122,9 @@ input:-webkit-autofill {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*--Стили личного кабинета-----*/
 .header {
-	background-color: black;
+	background-color: #333333;
 	color: white;
 	display: flex;
 	flex-direction: row;
@@ -159,6 +137,26 @@ input:-webkit-autofill {
 	width: 100%;
 	top: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .header * {
 	color: white;
@@ -289,6 +287,7 @@ input:-webkit-autofill {
 	border-radius: 5px;
 	text-align: center;
 	color: white !important;
+	width: 20%;
 }
 
 .info_block div:nth-child(1) {

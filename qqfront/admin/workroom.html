@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title>Панель администрирования АПК Quick Queue</title>
+	<link rel = 'shortcut icon' href = 'favicon.png'>
+	<link rel = 'stylesheet' href = 'design/theme.css'>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src = './jquery-3.7.1.min.js'></script>
+	<script src = 'adminLogin.js'></script>
+	<script src = './jquery.maskedinput.min.js'></script>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap" rel="stylesheet">
+	
+</head>
+<body onload = "if (!getUser()) { sessionStorage.clear(); window.location.href = '/'; }">
+	<div class = "header">
+		<span class = "logo_header" onclick = "location.href='../workroom'">
+			<span><img src = 'design/favicon.png' style = "width: 40px"></span>
+			<h1>Система управления очередью Quick Queue</h1>
+		</span>
+	   
+	   <span class = "username_header"></span>
+	   <span class = "exit_header"><img src = 'design/power.svg' style = "width: 20px" onclick = "exitLK()"></span>
+	</div>
+	<div class = "body" >
+		<div class = "nav"></div>
+		<div class = "body_header">
+			<h2>Дашборд</h2>
+			<p>В данном разделе отображается общая статистика по работе системы</p>
+		</div>
+		<div class = "flex_div">
+			<div class = "info_block" data-color = "green">
+				<div>Ожидают</div>
+				<div id = "dayAccept">0</div>
+				<div>заявителей</div>
+			</div>
+			<div class = "info_block" data-color = "yellow">
+				<div>Приглашены</div>
+				<div id = "dayReject">0</div>
+				<div>заявителей</div>
+			</div>
+			<div class = "info_block" data-color = "blue">
+				<div>Обслужено</div>
+				<div id = "dayScale">0</div>
+				<div>заявителей</div>
+			</div>
+			<div class = "info_block" data-color = "red">
+				<div>Снято</div>
+				<div id = "totalAccept">0</div>
+				<div>заявителей</div>
+			</div>
+		</div>
+	</div>
+	<script src = 'app.js'></script>
+</body>
+</html>

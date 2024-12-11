@@ -10,7 +10,9 @@ import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.Json
 import qq.AdminServices
+import qq.StaffDAO
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -21,12 +23,12 @@ fun Application.configureRouting() {
     install(CORS) {
         anyHost()
         allowHeader(HttpHeaders.ContentType)
+        allowHeader("token")
     }
 
     var admin: AdminServices = AdminServices();
 
     routing {
-        /*
         post("/authenticate") {
             val formData = call.receiveParameters()
             require(formData["user_login"] != null && formData["user_password"] != null) { "Не указаны логин и пароль" }
@@ -42,11 +44,11 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.Unauthorized, message = "Неверный логин или пароль")
             }
         }
-        post("/userInfo") {
-            val formData = call.receiveParameters()
-            require(formData["token"] != null ) { "Не указан token" }
+        get("/userInfo") {
+            val formData = call.request.headers
             val token = formData["token"] ?: ""
 
+            println(token)
             var data = admin.get_staff_info_by_token(token)
             if (data != null) {
                 var data = "{\"name\" : \"${data["name"]}\"}"
@@ -74,7 +76,6 @@ fun Application.configureRouting() {
             call.respondText("Form submitted successfully!")
 
         }
-        */
         get("/check_health"){
             call.respond(HttpStatusCode.OK, "OK")
         }
