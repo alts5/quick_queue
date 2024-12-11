@@ -21,7 +21,7 @@ open class BaseDAO {
                 + System.getenv("DB_HOST") + ":"
                 + System.getenv("DB_PORT") + "/"
                 + System.getenv("DB_NAME") +
-                "?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Moscow&useSSL=false",
+                "?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Moscow&useSSL=false",
         driver = "com.mysql.jdbc.Driver",
         user = System.getenv("DB_USER"),
         password = System.getenv("DB_PASSWORD"),

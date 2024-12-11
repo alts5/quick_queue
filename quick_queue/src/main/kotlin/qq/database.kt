@@ -1,5 +1,0 @@
-package qq
-
-class database {
-    
-}
