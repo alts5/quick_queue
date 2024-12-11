@@ -39,3 +39,18 @@ class AdminServices(): BaseUC() {
         return staff.get_staff_by_token(token);
     }
 }
+
+class UserServices(): BaseUC() {
+    public  fun get_services_with_desc(): List<Map<String, String?>?> {
+        var services: ServicesDAO = ServicesDAO();
+        var cats: CategoriesDAO = CategoriesDAO();
+
+        return emptyList()
+    }
+    public fun get_categories(){
+        var cats: CategoriesDAO = CategoriesDAO();
+        for (cat in cats.get_all_categories()){
+            
+        }
+    }
+}

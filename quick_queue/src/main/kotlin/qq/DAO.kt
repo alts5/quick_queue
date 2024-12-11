@@ -1,4 +1,5 @@
 package qq
+
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import java.util.UUID
@@ -25,6 +26,7 @@ open class BaseDAO {
         user = System.getenv("DB_USER"),
         password = System.getenv("DB_PASSWORD"),
     )
+
     /**
      * Генерирует MD5-хэш входного текста.
      *
@@ -41,7 +43,7 @@ open class BaseDAO {
 /**
  * Объект доступа к данным для управления типами документов.
  */
-class DocumentTypesDAO(): BaseDAO() {
+class DocumentTypesDAO() : BaseDAO() {
     /**
      * Вставляет новый тип документа в базу данных.
      *
@@ -56,6 +58,7 @@ class DocumentTypesDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Помечает тип документа как удаленный.
      *
@@ -120,7 +123,7 @@ class DocumentTypesDAO(): BaseDAO() {
 /**
  * Объект доступа к данным для управления категориями.
  */
-class CategoriesDAO(): BaseDAO() {
+class CategoriesDAO() : BaseDAO() {
     /**
      * Вставляет новую категорию в базу данных.
      *
@@ -135,6 +138,7 @@ class CategoriesDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Отмечает категорию как удаленную.
      *
@@ -150,6 +154,7 @@ class CategoriesDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Извлекает категорию по ее идентификатору.
      *
@@ -173,6 +178,7 @@ class CategoriesDAO(): BaseDAO() {
         }
         return null
     }
+
     /**
      * Извлекает все активные категории.
      *
@@ -198,7 +204,7 @@ class CategoriesDAO(): BaseDAO() {
  * Объект доступа к данным для управления службами.
  */
 
-class ServicesDAO(): BaseDAO() {
+class ServicesDAO() : BaseDAO() {
     /**
      * Вставляет новую услугу в базу данных.
      *
@@ -213,6 +219,7 @@ class ServicesDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Отмечает службу как удаленную.
      *
@@ -228,6 +235,7 @@ class ServicesDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Извлекает службу по ее идентификатору.
      *
@@ -251,6 +259,7 @@ class ServicesDAO(): BaseDAO() {
         }
         return null
     }
+
     /**
      * Извлекает все активные службы.
      *
@@ -377,7 +386,7 @@ class StaffDAO : BaseDAO() {
     public fun get_staff(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Staff)
-                .select(Staff.name, Staff.login,Staff.staffId, Staff.password, Staff.admin, Staff.token)
+                .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
                 .where {
                     (Staff.staffId eq id) and (Staff.stat notEq "Заблокировано")
                 }
@@ -394,10 +403,11 @@ class StaffDAO : BaseDAO() {
         }
         return null
     }
+
     public fun get_staff_by_token(token: String): Map<String, String?>? {
         if (!token.equals("")) {
             return database.from(Staff)
-                .select(Staff.name,Staff.staffId, Staff.admin)
+                .select(Staff.name, Staff.staffId, Staff.admin)
                 .where {
                     (Staff.token eq token) and (Staff.stat notEq "Заблокировано")
                 }
@@ -414,7 +424,7 @@ class StaffDAO : BaseDAO() {
 
     public fun get_all_staff(): List<Map<String, String?>> {
         return database.from(Staff)
-            .select(Staff.name, Staff.login,Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
             .where {
                 (Staff.stat notEq "Заблокировано")
             }
@@ -435,7 +445,7 @@ class StaffDAO : BaseDAO() {
 /**
  * Объект доступа к данным для управления окнами и ассоциациями персонала.
  */
-class WindowsStaffDAO(): BaseDAO() {
+class WindowsStaffDAO() : BaseDAO() {
     /**
      * Вставляет новую связь между окном и сотрудником в базу данных.
      *
@@ -450,6 +460,7 @@ class WindowsStaffDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Отмечает связь окна и персонала как удаленную.
      *
@@ -467,6 +478,7 @@ class WindowsStaffDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Извлекает ассоциацию окна-штафт по ее идентификатору.
      *
@@ -491,6 +503,7 @@ class WindowsStaffDAO(): BaseDAO() {
         }
         return null
     }
+
     /**
      * Извлекает все активные ассоциации окон и персонала.
      *
@@ -511,10 +524,11 @@ class WindowsStaffDAO(): BaseDAO() {
             }
     }
 }
+
 /**
  * Объект доступа к данным для управления ассоциациями заявителя и службы.
  */
-class ApplicantsDocumentsDAO(): BaseDAO() {
+class ApplicantsDocumentsDAO() : BaseDAO() {
     /**
      * Вставляет новую связь между заявителем и документом в базу данных.
      *
@@ -523,7 +537,12 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
      * @param documentNumber Номер документа.
      * @param documentOwner Владелец документа.
      */
-    public fun insert_applicant_service(applicant: Int, documentType: Int, documentNumber: String, documentOwner: String) {
+    public fun insert_applicant_service(
+        applicant: Int,
+        documentType: Int,
+        documentNumber: String,
+        documentOwner: String
+    ) {
         if (applicant > 0 && documentType > 0 && !documentNumber.equals("") && !documentOwner.equals("")) {
             database.insert(ApplicantsDocuments) {
                 set(it.applicant, applicant)
@@ -533,6 +552,7 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Отмечает связь заявителя с услугой как удаленную.
      *
@@ -549,6 +569,7 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Извлекает связь заявителя с услугой по ее идентификатору.
      *
@@ -558,7 +579,13 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
     public fun get_applicant_service(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(ApplicantsDocuments)
-                .select(ApplicantsDocuments.applicant, ApplicantsDocuments.documentType, ApplicantsDocuments.documentNumber, ApplicantsDocuments.documentOwner, ApplicantsDocuments.applicantsDocumentsId)
+                .select(
+                    ApplicantsDocuments.applicant,
+                    ApplicantsDocuments.documentType,
+                    ApplicantsDocuments.documentNumber,
+                    ApplicantsDocuments.documentOwner,
+                    ApplicantsDocuments.applicantsDocumentsId
+                )
                 .where {
                     (ApplicantsDocuments.applicantsDocumentsId eq id) and (ApplicantsDocuments.stat notEq "Заблокировано")
                 }
@@ -574,6 +601,7 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
         }
         return null
     }
+
     /**
      * Извлекает все активные ассоциации заявителя и службы.
      *
@@ -581,7 +609,13 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
      */
     public fun get_all_applicants_services(): List<Map<String, String?>> {
         return database.from(ApplicantsDocuments)
-            .select(ApplicantsDocuments.applicant, ApplicantsDocuments.documentType, ApplicantsDocuments.documentNumber, ApplicantsDocuments.documentOwner, ApplicantsDocuments.applicantsDocumentsId)
+            .select(
+                ApplicantsDocuments.applicant,
+                ApplicantsDocuments.documentType,
+                ApplicantsDocuments.documentNumber,
+                ApplicantsDocuments.documentOwner,
+                ApplicantsDocuments.applicantsDocumentsId
+            )
             .where {
                 (ApplicantsDocuments.stat notEq "Заблокировано")
             }
@@ -596,10 +630,11 @@ class ApplicantsDocumentsDAO(): BaseDAO() {
             }
     }
 }
+
 /**
  * Объект доступа к данным для управления ассоциациями заявитель-категория-окно.
  */
-class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
+class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
     /**
      * Вставляет новую связь между заявителем, category-service и window-staff.
      *
@@ -616,6 +651,7 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Отмечает связь между кандидатом и категорией и окном как удаленную.
      *
@@ -632,6 +668,7 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
             }
         }
     }
+
     /**
      * Извлекает связь между кандидатом и категорией и окном по ее идентификатору.
      *
@@ -656,6 +693,7 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
         }
         return null
     }
+
     /**
      * Извлекает все активные ассоциации заявителя-категории-окна.
      *
@@ -675,5 +713,67 @@ class ApplicantsCategoriesWindowsDAO(): BaseDAO() {
                     "windowStaff" to row[Main.windowStaff].toString()
                 )
             }
+    }
+}
+
+class CategoriesServicesDAO() : BaseDAO() {
+    public fun insert_categories_services(categoryID: Int, serviceID: Int) {
+        if (categoryID > 0 && serviceID > 0) {
+            database.insert(CategoriesServices) {
+                set(it.category, categoryID)
+                set(it.service, serviceID)
+            }
+        }
+    }
+
+    public fun delete_categories_services(serviceID: Int) {
+        if (serviceID > 0) {
+            database.update(CategoriesServices) {
+                set(it.stat, "Заблокирован")
+                set(it.blockDate, SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Date()))
+                where {
+                    it.categoriesServicesId eq serviceID
+                }
+            }
+        }
+    }
+
+    public fun get_categories_services(id: Int): Map<String, String>? {
+        if (id > 0) {
+            return database.from(CategoriesServices)
+                .select(
+                    CategoriesServices.categoriesServicesId,
+                    CategoriesServices.category,
+                    CategoriesServices.service,
+                    CategoriesServices.stat
+                )
+                .where {
+                    (CategoriesServices.categoriesServicesId eq id) and (Main.stat notEq "Заблокировано")
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[CategoriesServices.categoriesServicesId].toString(),
+                        "categoryId" to row[CategoriesServices.category].toString(),
+                        "serviceId" to row[CategoriesServices.service].toString(),
+                        "windowStaff" to row[CategoriesServices.stat].toString()
+                    )
+                }[0]
+        }
+        return null;
+    }
+    public fun get_all_categories_services(id: Int): List<Map<String, String>>? {
+        return database.from(CategoriesServices)
+            .select(CategoriesServices.categoriesServicesId, CategoriesServices.category, CategoriesServices.service)
+            .where {
+                (CategoriesServices.stat notEq "Заблокировано")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[CategoriesServices.categoriesServicesId].toString(),
+                    "category" to row[CategoriesServices.category].toString(),
+                    "service" to row[CategoriesServices.service].toString(),
+                )
+            }
+
     }
 }

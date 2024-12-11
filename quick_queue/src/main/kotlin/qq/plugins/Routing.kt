@@ -26,6 +26,7 @@ fun Application.configureRouting() {
     var admin: AdminServices = AdminServices();
 
     routing {
+        /*
         post("/authenticate") {
             val formData = call.receiveParameters()
             require(formData["user_login"] != null && formData["user_password"] != null) { "Не указаны логин и пароль" }
@@ -70,8 +71,12 @@ fun Application.configureRouting() {
             val wid : Int = formData["wid"]?.toInt() ?: 0
 
             admin.delete_window(wid)
-            call.respondText("Form submitted successfully!")s
+            call.respondText("Form submitted successfully!")
 
+        }
+        */
+        get("/check_health"){
+            call.respond(HttpStatusCode.OK, "OK")
         }
     }
 
