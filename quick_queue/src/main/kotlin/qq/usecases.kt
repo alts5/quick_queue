@@ -25,12 +25,6 @@ class AdminServices(): BaseUC() {
     var categories: CategoriesDAO = CategoriesDAO();
     var services: ServicesDAO = ServicesDAO();
 
-    public fun add_window(window_name: String) {
-        windows.insert_window(window_name);
-    }
-    public fun delete_window(window_id: Int) {
-        windows.delete_window(window_id);
-    }
     public fun check_user_creds(login: String, password: String): String? {
         for (staff_obj in staff.get_all_staff()) {
             if (staff_obj["login"] == login && staff_obj["password"] == this.md5(password)) {
@@ -111,6 +105,25 @@ class AdminServices(): BaseUC() {
         }
         else {
             return services.set_stat_field(id.toInt(), "Доступно");
+        }
+    }
+
+    /* --- Окна --- */
+    public fun add_new_window(label: String?): Boolean {
+        return windows.insert_window(label)
+    }
+    public fun get_windows_list(): List<Map<String, String?>> {
+        return windows.get_all_windows();
+    }
+    public fun delete_window(id: String): Boolean {
+        return windows.delete_window(id.toInt());
+    }
+    public fun change_window_stat(id: String): Boolean {
+        if (windows.get_window(id.toInt())?.get("stat").equals("Доступно")) {
+            return windows.set_stat_field(id.toInt(), "Заблокировано");
+        }
+        else {
+            return windows.set_stat_field(id.toInt(), "Доступно");
         }
     }
 }

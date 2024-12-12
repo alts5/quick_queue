@@ -314,27 +314,88 @@ fun Application.configureRouting() {
         }
 
 
+        /* ---- Окна ----*/
 
+        get("/showServices") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
 
-
-        post("/add_window") {
-            val formData = call.receiveParameters()
-            require(formData["name"] != null) { "Name field is missing" }
-            val name = formData["name"] ?: ""
-
-            admin.add_window(name)
-            call.respondText("Form submitted successfully!")
+            if (staffInfo != null) {
+                var data = admin.get_services_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
         }
 
-        post("/delete_window") {
-            val formData = call.receiveParameters()
-            require(formData["wid"] != null) { "Wid field is missing" }
-            val wid : Int = formData["wid"]?.toInt() ?: 0
+        get("/deleteServices") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
 
-            admin.delete_window(wid)
-            call.respondText("Form submitted successfully!")
-
+            if (staffInfo != null) {
+                var data = admin.delete_service(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
         }
+
+        post("/hideServices") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["id"] != null) { "Не все поля формы заполнены" }
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.change_service_stat(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+
+        post("/addWindows") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["label"] != null) { "Не все поля формы заполнены" }
+
+            val token = formData["token"] ?: ""
+            val name = formData["label"]
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.add_new_window(name)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+
+
 
         get("/check_health"){
             call.respond(HttpStatusCode.OK, "OK")

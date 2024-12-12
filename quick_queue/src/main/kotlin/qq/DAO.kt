@@ -384,7 +384,9 @@ class WindowsDAO : BaseDAO() {
             database.insert(Windows) {
                 set(it.label, label)
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -393,15 +395,27 @@ class WindowsDAO : BaseDAO() {
      * @param id Идентификатор окна для блокировки.
      * @throws IllegalArgumentException, если идентификатор не положительный.
      */
-    public fun delete_window(id: Int) {
+    public fun delete_window(id: Int): Boolean {
+        if (id > 0) {
+            database.delete(Windows) {
+                it.windowId eq id
+            }
+            return true
+        }
+        return false
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
         if (id > 0) {
             database.update(Windows) {
-                set(it.stat, "Заблокировано")
+                set(it.stat, stat)
                 where {
                     it.windowId eq id
                 }
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -417,7 +431,7 @@ class WindowsDAO : BaseDAO() {
             return database.from(Windows)
                 .select(Windows.label, Windows.windowId)
                 .where {
-                    (Windows.windowId eq id) and (Services.stat notEq "Заблокировано")
+                    (Windows.windowId eq id)
                 }
                 .map { row ->
                     mapOf(
@@ -435,6 +449,17 @@ class WindowsDAO : BaseDAO() {
      * @return Список карт, содержащих идентификаторы служб, названия и описания.
      */
     public fun get_all_windows(): List<Map<String, String?>> {
+        return database.from(Windows)
+            .select(Windows.label, Windows.windowId)
+            .map { row ->
+                mapOf(
+                    "id" to row[Windos.windowId].toString(),
+                    "label" to row[Windows.label],
+                )
+            }
+    }
+
+    public fun get_all_visible_windows(): List<Map<String, String?>> {
         return database.from(Windows)
             .select(Windows.label, Windows.windowId)
             .where {

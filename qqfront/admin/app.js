@@ -174,6 +174,41 @@ function getServicesTable(page=pn) {
 		});
 }
 
+function getWindowsTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#windowsListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var description = data[i]["description"] || "-";
+						var warnIcon = "<td></td>";
+						
+						if (data[i]["stat"] != "Доступно") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+		
+						$('#windowsListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td><td>"
+							+ description + "</td><td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
+
+
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
 	var hrefs = {
@@ -218,5 +253,8 @@ $(document).ready(function() {
 	}
 	if ($('#servicesListTable').length) {
 		getCategoriesTable();
+	}
+	if ($('#windowsListTable').length) {
+		getWindowsTable();
 	}
 });
