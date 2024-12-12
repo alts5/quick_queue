@@ -36,7 +36,6 @@
 				<tr>
 					<th>ID</th>
 					<th>Отображаемое наименование</th>
-					<th>Описание</th>
 					<th>Состояние</th>
 					<th colspan = "3">Действия</th>
 				</tr>
@@ -49,15 +48,13 @@
 	<div class = 'modal_wrap_lk'></div>
 	
 	
-	<div class = 'modal_window_lk' style = "height: 350px" id = "createForm_window">
+	<div class = 'modal_window_lk' style = "height: 270px" id = "createForm_window">
 		<h3>Добавление обслуживающего окна</h3>
 		<form id = 'create_form'>
 		
 			<div>Отображаемое наименование окна</div>
 			<input name = "label" placeholder = "Например, Замена паспорта РФ" required>
-			<div>Описание окна</div>
-			<input name = "description" placeholder = "Укажите данные, если необходимо">
-			
+
 			<input name = "id" class = "hidden_form_field">
 			<input name = "token" class = "hidden_form_field">
 		</form>
@@ -67,7 +64,7 @@
 		</div>
 	</div>
 	
-	<input class = "hidden_form_field" id = "page_name" value = "Services">
+	<input class = "hidden_form_field" id = "page_name" value = "Windows">
 	<script src = 'app.js'></script>
 </body>
 </html>

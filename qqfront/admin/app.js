@@ -148,7 +148,7 @@ function getServicesTable(page=pn) {
 			data: { token : sessionStorage.getItem('token') },
 			success: function(data) {
 				if (data != undefined) {
-					$('#categoriesListTable>tbody').empty();
+					$('#servicesListTable>tbody').empty();
 					for (var i = 0; i < data.length; i++) {
 						var id = data[i]["id"];
 						var description = data[i]["description"] || "-";
@@ -161,7 +161,7 @@ function getServicesTable(page=pn) {
 							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
 						}
 		
-						$('#categoriesListTable>tbody').append(
+						$('#servicesListTable>tbody').append(
 							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td><td>"
 							+ description + "</td><td>" + data[i]["stat"] + "</td>"
 							+ statIcon
@@ -185,7 +185,6 @@ function getWindowsTable(page=pn) {
 					$('#windowsListTable>tbody').empty();
 					for (var i = 0; i < data.length; i++) {
 						var id = data[i]["id"];
-						var description = data[i]["description"] || "-";
 						var warnIcon = "<td></td>";
 						
 						if (data[i]["stat"] != "Доступно") {
@@ -196,10 +195,11 @@ function getWindowsTable(page=pn) {
 						}
 		
 						$('#windowsListTable>tbody').append(
-							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td><td>"
-							+ description + "</td><td>" + data[i]["stat"] + "</td>"
+							"<tr><td>" + id + "</td><td>" + data[i]["label"] + "</td>"
+							+"<td>" + data[i]["stat"] + "</td>"
 							+ statIcon
 							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "<td><img src = 'design/services.svg'></td>"
 							+ "</tr>"
 						);
 					}
@@ -252,7 +252,7 @@ $(document).ready(function() {
 		getCategoriesTable();
 	}
 	if ($('#servicesListTable').length) {
-		getCategoriesTable();
+		getServicesTable();
 	}
 	if ($('#windowsListTable').length) {
 		getWindowsTable();

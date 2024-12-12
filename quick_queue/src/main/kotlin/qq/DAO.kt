@@ -525,7 +525,7 @@ class WindowsDAO : BaseDAO() {
     public fun get_window(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Windows)
-                .select(Windows.label, Windows.windowId)
+                .select(Windows.label, Windows.windowId, Windows.stat)
                 .where {
                     (Windows.windowId eq id)
                 }
@@ -533,6 +533,7 @@ class WindowsDAO : BaseDAO() {
                     mapOf(
                         "id" to row[Windows.windowId].toString(),
                         "label" to row[Windows.label],
+                        "stat" to row[Windows.stat]
                     )
                 }[0]
         }
@@ -546,18 +547,19 @@ class WindowsDAO : BaseDAO() {
      */
     public fun get_all_windows(): List<Map<String, String?>> {
         return database.from(Windows)
-            .select(Windows.label, Windows.windowId)
+            .select(Windows.label, Windows.windowId, Windows.stat)
             .map { row ->
                 mapOf(
                     "id" to row[Windows.windowId].toString(),
                     "label" to row[Windows.label],
+                    "stat" to row[Windows.stat]
                 )
             }
     }
 
     public fun get_all_visible_windows(): List<Map<String, String?>> {
         return database.from(Windows)
-            .select(Windows.label, Windows.windowId)
+            .select(Windows.label, Windows.windowId, Windows.stat)
             .where {
                 (Windows.stat notEq "Заблокировано")
             }
@@ -565,6 +567,7 @@ class WindowsDAO : BaseDAO() {
                 mapOf(
                     "id" to row[Windows.windowId].toString(),
                     "label" to row[Windows.label],
+                    "stat" to row[Windows.stat]
                 )
             }
     }

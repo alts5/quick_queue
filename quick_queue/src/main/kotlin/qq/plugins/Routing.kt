@@ -316,13 +316,13 @@ fun Application.configureRouting() {
 
         /* ---- Окна ----*/
 
-        get("/showServices") {
+        get("/showWindows") {
             val formData = call.request.queryParameters
             val token = formData["token"] ?: ""
             var staffInfo = admin.get_staff_info_by_token(token)
 
             if (staffInfo != null) {
-                var data = admin.get_services_list()
+                var data = admin.get_windows_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
             }
             else {
@@ -330,14 +330,14 @@ fun Application.configureRouting() {
             }
         }
 
-        get("/deleteServices") {
+        get("/deleteWindows") {
             val formData = call.request.queryParameters
             val token = formData["token"] ?: ""
             val id = formData["id"] ?: ""
             var staffInfo = admin.get_staff_info_by_token(token)
 
             if (staffInfo != null) {
-                var data = admin.delete_service(id)
+                var data = admin.delete_window(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
                 }
@@ -350,7 +350,7 @@ fun Application.configureRouting() {
             }
         }
 
-        post("/hideServices") {
+        post("/hideWindows") {
             val formData = call.receiveParameters()
             require(formData["token"] != null && formData["id"] != null) { "Не все поля формы заполнены" }
             val token = formData["token"] ?: ""
@@ -358,7 +358,7 @@ fun Application.configureRouting() {
             var staffInfo = admin.get_staff_info_by_token(token)
 
             if (staffInfo != null) {
-                var data = admin.change_service_stat(id)
+                var data = admin.change_window_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
                 }
