@@ -71,6 +71,90 @@ fun Application.configureRouting() {
             }
         }
 
+        get("/showDoctypes") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_doctypes_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        get("/deleteDoctype") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.delete_doctype(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        post("/hideDoctype") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["id"] != null) { "Не все поля формы заполнены" }
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.change_doctype_stat(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+
+        post("/addDoctype") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["label"] != null) { "Не все поля формы заполнены" }
+
+            val token = formData["token"] ?: ""
+            val label = formData["label"]
+            val description = formData["description"]
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.add_new_doctype(label, description)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+
+
+
+
+
         post("/add_window") {
             val formData = call.receiveParameters()
             require(formData["name"] != null) { "Name field is missing" }

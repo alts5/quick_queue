@@ -7,7 +7,7 @@ html, body {
 
 div, span, a, p, .auth input {
 	font-family: Montserrat, Arial;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 300;
 }
 
@@ -359,7 +359,7 @@ input:-webkit-autofill {
 }
 
 .body h2 {
-	margin: 10px 0;
+	margin: 30px 0 10px;
 }
 
 .body_header {

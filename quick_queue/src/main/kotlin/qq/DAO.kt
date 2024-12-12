@@ -3,14 +3,11 @@ package qq
 import io.ktor.http.*
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import java.util.UUID
 import java.math.BigInteger
 import java.security.MessageDigest
-import java.sql.Timestamp
 //import java.security.Timestamp
 import java.util.Date
 import java.text.SimpleDateFormat
-import kotlin.math.log
 
 /**
  * Базовый класс DAO, обеспечивающий подключение к базе данных и служебные методы.
@@ -55,13 +52,15 @@ class DocumentTypesDAO() : BaseDAO() {
      * @param label - Метка типа документа.
      * @param description - Описание типа документа.
      */
-    public fun insert_document_type(label: String, description: String) {
-        if (!label.equals("") && !description.equals("")) {
+    public fun insert_document_type(label: String?, description: String?): Boolean {
+        if (!label.equals("")) {
             database.insert(DocumentTypes) {
                 set(it.label, label)
                 set(it.description, description)
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -69,15 +68,27 @@ class DocumentTypesDAO() : BaseDAO() {
      *
      * @param id - Идентификатор типа документа, который должен быть помечен как удаленный.
      */
-    public fun delete_document_type(id: Int) {
+    public fun delete_document_type(id: Int): Boolean {
+        if (id > 0) {
+            database.delete(DocumentTypes) {
+                it.documentTypeId eq id
+            }
+            return true
+        }
+        return false
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
         if (id > 0) {
             database.update(DocumentTypes) {
-                set(it.stat, "Заблокировано")
+                set(it.stat, stat)
                 where {
                     it.documentTypeId eq id
                 }
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -89,14 +100,15 @@ class DocumentTypesDAO() : BaseDAO() {
     public fun get_document_type(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(DocumentTypes)
-                .select(DocumentTypes.label, DocumentTypes.description, DocumentTypes.documentTypeId)
+                .select(DocumentTypes.label, DocumentTypes.stat, DocumentTypes.description, DocumentTypes.documentTypeId)
                 .where {
-                    (DocumentTypes.documentTypeId eq id) and (DocumentTypes.stat notEq "Заблокировано")
+                    (DocumentTypes.documentTypeId eq id)
                 }
                 .map { row ->
                     mapOf(
                         "id" to row[DocumentTypes.documentTypeId].toString(),
                         "label" to row[DocumentTypes.label],
+                        "stat" to row[DocumentTypes.stat],
                         "description" to row[DocumentTypes.description]
                     )
                 }[0]
@@ -111,14 +123,27 @@ class DocumentTypesDAO() : BaseDAO() {
      */
     public fun get_all_document_types(): List<Map<String, String?>> {
         return database.from(DocumentTypes)
-            .select(DocumentTypes.label, DocumentTypes.description, DocumentTypes.documentTypeId)
+            .select(DocumentTypes.label, DocumentTypes.stat, DocumentTypes.description, DocumentTypes.documentTypeId)
+            .map { row ->
+                mapOf(
+                    "id" to row[DocumentTypes.documentTypeId].toString(),
+                    "label" to row[DocumentTypes.label],
+                    "stat" to row[DocumentTypes.stat],
+                    "description" to row[DocumentTypes.description]
+                )
+            }
+    }
+    public fun get_visible_document_types(): List<Map<String, String?>> {
+        return database.from(DocumentTypes)
+            .select(DocumentTypes.label, DocumentTypes.stat, DocumentTypes.description, DocumentTypes.documentTypeId)
             .where {
                 (DocumentTypes.stat notEq "Заблокировано")
             }
             .map { row ->
                 mapOf(
                     "id" to row[DocumentTypes.documentTypeId].toString(),
-                    "description" to row[DocumentTypes.description],
+                    "label" to row[DocumentTypes.label],
+                    "stat" to row[DocumentTypes.stat],
                     "description" to row[DocumentTypes.description]
                 )
             }
@@ -744,13 +769,19 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
 }
 
 class CategoriesServicesDAO() : BaseDAO() {
-    public fun insert_categories_services(categoryID: Int, serviceID: Int) {
-        if (categoryID > 0 && serviceID > 0) {
-            database.insert(CategoriesServices) {
-                set(it.category, categoryID)
-                set(it.service, serviceID)
+    public fun insert_categories_services(categoryID: Int, serviceID: Int): Boolean {
+        try {
+            if (categoryID > 0 && serviceID > 0) {
+                database.insert(CategoriesServices) {
+                    set(it.category, categoryID)
+                    set(it.service, serviceID)
+                }
             }
         }
+        catch(e: Exception) {
+            return false
+        }
+        return true
     }
 
     public fun delete_categories_services(serviceID: Int) {

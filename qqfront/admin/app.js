@@ -1,5 +1,107 @@
 var pathToBackend = window.location.hostname;
 
+function errorPushWindow(msg) {
+	if (msg.responseJSON) alert(msg.responseJSON["detail"]);
+	else alert("При взаимодействии с сервером произошла ошибка. Проверьте поля ввода данных");
+}
+
+function exitLK() {
+	sessionStorage.clear();
+	window.location.reload();
+}
+
+function modal_window_controller(elem, action, row=null) {
+	if (action == 1) {
+		$('.modal_wrap_lk').css("display", "block");
+		$('#' + elem).css("display", "block");
+		if ($('#' + elem + ' input[name=id]').length) {
+			$('#' + elem + ' input[name=id]').val(row);
+		}
+	}
+	else {
+		$('.modal_wrap_lk').css("display", "none");
+		$('#' + elem).css("display", "none");
+	}
+}
+
+$('#create_form').on('submit', function(e) {
+	e.preventDefault();
+	$('form [name="token"]').val(sessionStorage.getItem('token'));
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/addDoctype',     
+			method: 'POST',
+			dataType: 'json',
+			contentType: "application/x-www-form-urlencoded",
+			data: $(this).serialize(),
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			}
+		});
+	return false;
+});
+
+function delete_position(page, id) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/delete' + page,   
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token'), id : id },
+			success: window.location.reload()
+		});
+}
+
+function hide_position(page, id) {
+	$.ajax({
+		url: 'http://' + pathToBackend + ':8080/hide' + page,     
+		method: 'POST',
+		dataType: 'json',
+		data: {token: sessionStorage.getItem('token'), id: id},
+		success: function(data){
+			window.location.reload();
+		},
+		error: function(data) {
+			errorPushWindow(data);
+		}
+	});
+}
+
+
+function getDoctypesTable() {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/showDoctypes',     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#doctypesListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var description = data[i]["description"] || "-";
+						var warnIcon = "<td></td>";
+						
+						if (data[i]["stat"] != "Доступно") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\"Doctype\",\""+data[i]['id']+"\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\"Doctype\",\""+data[i]['id']+"\")'></td>"
+						}
+						
+						$('#doctypesListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["label"] + "</td><td>"
+							+ description + "</td><td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\"Doctype\",\"" +  id + "\")'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
 
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
@@ -37,9 +139,7 @@ $(document).ready(function() {
 			}
 		});
 	}
+	if ($('#doctypesListTable').length) {
+		getDoctypesTable();
+	}
 });
-
-function exitLK() {
-	sessionStorage.clear();
-	window.location.reload();
-}

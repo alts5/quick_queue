@@ -1,6 +1,5 @@
 package qq
 
-import io.ktor.util.*
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -22,6 +21,7 @@ class AdminServices(): BaseUC() {
     var windows: WindowsDAO = WindowsDAO();
     var staff: StaffDAO = StaffDAO();
     var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
+    var doctypes: DocumentTypesDAO = DocumentTypesDAO();
 
     public fun add_window(window_name: String) {
         windows.insert_window(window_name);
@@ -49,6 +49,24 @@ class AdminServices(): BaseUC() {
             "rejected" to main.get_count_by_status("Снято")
             )
         return temp
+    }
+    public fun add_new_doctype(label: String?, description: String?): Boolean {
+        return doctypes.insert_document_type(label, description)
+    }
+
+    public fun get_doctypes_list(): List<Map<String, String?>> {
+        return doctypes.get_all_document_types();
+    }
+    public fun delete_doctype(id: String): Boolean {
+        return doctypes.delete_document_type(id.toInt());
+    }
+    public fun change_doctype_stat(id: String): Boolean {
+        if (doctypes.get_document_type(id.toInt())?.get("stat").equals("Доступно")) {
+            return doctypes.set_stat_field(id.toInt(), "Заблокировано");
+        }
+        else {
+            return doctypes.set_stat_field(id.toInt(), "Доступно");
+        }
     }
 }
 
