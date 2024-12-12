@@ -160,13 +160,15 @@ class CategoriesDAO() : BaseDAO() {
      * @param name Имя категории.
      * @param description Описание категории.
      */
-    public fun insert_category(name: String, description: String) {
-        if (!name.equals("") && !description.equals("")) {
+    public fun insert_category(name: String?, description: String?): Boolean {
+        if (!name.equals("")) {
             database.insert(Categories) {
                 set(it.name, name)
                 set(it.description, description)
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -174,15 +176,27 @@ class CategoriesDAO() : BaseDAO() {
      *
      * @param id Идентификатор категории, которая будет отмечена как удаленная.
      */
-    public fun delete_category(id: Int) {
+    public fun delete_category(id: Int): Boolean {
+        if (id > 0) {
+            database.delete(Categories) {
+                it.categoryId eq id
+            }
+            return true
+        }
+        return false
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
         if (id > 0) {
             database.update(Categories) {
-                set(it.stat, "Заблокировано")
+                set(it.stat, stat)
                 where {
                     it.categoryId eq id
                 }
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -191,20 +205,21 @@ class CategoriesDAO() : BaseDAO() {
      * @param id Идентификатор категории для извлечения.
      * @return Список карт, содержащих извлеченную информацию о категории, или null, если не найдено.
      */
-    public fun get_category(id: Int): List<Map<String, String?>>? {
+    public fun get_category(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Categories)
-                .select(Categories.name, Categories.description, Categories.categoryId)
+                .select(Categories.name, Categories.stat, Categories.description, Categories.categoryId)
                 .where {
-                    (Categories.categoryId eq id) and (Categories.stat notEq "Заблокировано")
+                    (Categories.categoryId eq id)
                 }
                 .map { row ->
                     mapOf(
                         "id" to row[Categories.categoryId].toString(),
                         "name" to row[Categories.name],
+                        "stat" to row[Categories.stat],
                         "description" to row[Categories.description]
                     )
-                }
+                }[0]
         }
         return null
     }
@@ -214,7 +229,19 @@ class CategoriesDAO() : BaseDAO() {
      *
      * @return Карту, содержащую всю информацию об активных категориях.
      */
-    public fun get_all_categories(): Map<String, String?> {
+    public fun get_all_categories(): List<Map<String, String?>> {
+        return database.from(Categories)
+            .select(Categories.name, Categories.stat, Categories.description, Categories.categoryId)
+            .map { row ->
+                mapOf(
+                    "id" to row[Categories.categoryId].toString(),
+                    "name" to row[Categories.name],
+                    "stat" to row[Categories.stat],
+                    "description" to row[Categories.description]
+                )
+            }
+    }
+    public fun get_all_visible_categories(): List<Map<String, String?>> {
         return database.from(Categories)
             .select(Categories.name, Categories.description, Categories.categoryId)
             .where {
@@ -224,9 +251,10 @@ class CategoriesDAO() : BaseDAO() {
                 mapOf(
                     "id" to row[Categories.categoryId].toString(),
                     "name" to row[Categories.name],
+                    "stat" to row[Categories.stat],
                     "description" to row[Categories.description]
                 )
-            }[0]
+            }
     }
 }
 
@@ -241,13 +269,15 @@ class ServicesDAO() : BaseDAO() {
      * @param name Имя услуги.
      * @param description Описание услуги.
      */
-    public fun insert_service(name: String, description: String) {
-        if (!name.equals("") && !description.equals("")) {
+    public fun insert_service(name: String?, description: String?): Boolean {
+        if (!name.equals("")) {
             database.insert(Services) {
                 set(it.name, name)
                 set(it.description, description)
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -255,15 +285,27 @@ class ServicesDAO() : BaseDAO() {
      *
      * @param id Идентификатор службы, которая будет отмечена как удаленная.
      */
-    public fun delete_service(id: Int) {
+    public fun delete_service(id: Int): Boolean {
+        if (id > 0) {
+            database.delete(Services) {
+                it.serviceId eq id
+            }
+            return true
+        }
+        return false
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
         if (id > 0) {
             database.update(Services) {
-                set(it.stat, "Заблокировано")
+                set(it.stat, stat)
                 where {
                     it.serviceId eq id
                 }
             }
+            return true
         }
+        return false
     }
 
     /**
@@ -275,14 +317,15 @@ class ServicesDAO() : BaseDAO() {
     public fun get_service(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Services)
-                .select(Services.name, Services.description, Services.serviceId)
+                .select(Services.name, Services.stat, Services.description, Services.serviceId)
                 .where {
-                    (Services.serviceId eq id) and (Services.stat notEq "Заблокировано")
+                    (Services.serviceId eq id)
                 }
                 .map { row ->
                     mapOf(
                         "id" to row[Services.serviceId].toString(),
                         "name" to row[Services.name],
+                        "stat" to row[Services.stat],
                         "description" to row[Services.description]
                     )
                 }[0]
@@ -297,7 +340,20 @@ class ServicesDAO() : BaseDAO() {
      */
     public fun get_all_services(): List<Map<String, String?>> {
         return database.from(Services)
-            .select(Services.name, Services.description)
+            .select(Services.name, Services.stat, Services.description, Services.serviceId)
+            .map { row ->
+                mapOf(
+                    "id" to row[Services.serviceId].toString(),
+                    "name" to row[Services.name],
+                    "stat" to row[Services.stat],
+                    "description" to row[Services.description]
+                )
+            }
+    }
+
+    public fun get_all_visible_services(): List<Map<String, String?>> {
+        return database.from(Services)
+            .select(Services.name, Services.stat, Services.description, Services.serviceId)
             .where {
                 (Services.stat notEq "Заблокировано")
             }
@@ -305,6 +361,7 @@ class ServicesDAO() : BaseDAO() {
                 mapOf(
                     "id" to row[Services.serviceId].toString(),
                     "name" to row[Services.name],
+                    "stat" to row[Services.stat],
                     "description" to row[Services.description]
                 )
             }

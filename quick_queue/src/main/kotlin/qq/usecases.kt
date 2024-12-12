@@ -22,6 +22,8 @@ class AdminServices(): BaseUC() {
     var staff: StaffDAO = StaffDAO();
     var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
     var doctypes: DocumentTypesDAO = DocumentTypesDAO();
+    var categories: CategoriesDAO = CategoriesDAO();
+    var services: ServicesDAO = ServicesDAO();
 
     public fun add_window(window_name: String) {
         windows.insert_window(window_name);
@@ -50,6 +52,8 @@ class AdminServices(): BaseUC() {
             )
         return temp
     }
+
+    /* --- Типы документов --- */
     public fun add_new_doctype(label: String?, description: String?): Boolean {
         return doctypes.insert_document_type(label, description)
     }
@@ -66,6 +70,47 @@ class AdminServices(): BaseUC() {
         }
         else {
             return doctypes.set_stat_field(id.toInt(), "Доступно");
+        }
+    }
+
+
+    /* --- Категории --- */
+    public fun add_new_category(label: String?, description: String?): Boolean {
+        return categories.insert_category(label, description)
+    }
+
+    public fun get_categories_list(): List<Map<String, String?>> {
+        return categories.get_all_categories();
+    }
+    public fun delete_category(id: String): Boolean {
+        return categories.delete_category(id.toInt());
+    }
+    public fun change_category_stat(id: String): Boolean {
+        if (categories.get_category(id.toInt())?.get("stat").equals("Доступно")) {
+            return categories.set_stat_field(id.toInt(), "Заблокировано");
+        }
+        else {
+            return categories.set_stat_field(id.toInt(), "Доступно");
+        }
+    }
+
+    /* --- Сервисы --- */
+    public fun add_new_service(label: String?, description: String?): Boolean {
+        return services.insert_service(label, description)
+    }
+
+    public fun get_services_list(): List<Map<String, String?>> {
+        return services.get_all_services();
+    }
+    public fun delete_service(id: String): Boolean {
+        return services.delete_service(id.toInt());
+    }
+    public fun change_service_stat(id: String): Boolean {
+        if (services.get_service(id.toInt())?.get("stat").equals("Доступно")) {
+            return services.set_stat_field(id.toInt(), "Заблокировано");
+        }
+        else {
+            return services.set_stat_field(id.toInt(), "Доступно");
         }
     }
 }

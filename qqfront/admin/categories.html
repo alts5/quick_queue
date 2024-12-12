@@ -24,21 +24,21 @@
 	<div class = "body">
 		<div class = "nav"></div>
 		<div class = "body_header">
-			<h2>Типы документов</h2>
-			<p>В данном разделе Вы можете осуществлять управление типами документов, идентифицирующими заявителя</p>
+			<h2>Категории заявителей</h2>
+			<p>В данном разделе Вы можете осуществлять управление категориями заявителей, назначением доступных им сервисам</p>
 		</div>	
 		<div class = "flex_div">
-			<button onclick = "modal_window_controller('createForm_window', 1)">Добавить тип документа</button>
-			<button onclick = "window.location.reload()">Обновить список типов</button>
+			<button onclick = "modal_window_controller('createForm_window', 1)">Добавить категорию заявителей</button>
+			<button onclick = "window.location.reload()">Обновить список категорий</button>
 		</div>
-		<table id = "doctypesListTable">
+		<table id = "categoriesListTable">
 			<thead>
 				<tr>
 					<th>ID</th>
 					<th>Отображаемое наименование</th>
 					<th>Описание</th>
 					<th>Состояние</th>
-					<th colspan = "2">Действия</th>
+					<th colspan = "3">Действия</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,12 +50,12 @@
 	
 	
 	<div class = 'modal_window_lk' style = "height: 350px" id = "createForm_window">
-		<h3>Добавление типа документа</h3>
+		<h3>Добавление категории</h3>
 		<form id = 'create_form'>
 		
-			<div>Отображаемое наименование документа</div>
-			<input name = "label" placeholder = "Например, Паспорт РФ" required>
-			<div>Описание документа</div>
+			<div>Отображаемое наименование категории</div>
+			<input name = "label" placeholder = "Например, Студент" required>
+			<div>Описание категории</div>
 			<input name = "description" placeholder = "Укажите данные, если необходимо">
 			
 			<input name = "id" class = "hidden_form_field">
@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	
-	<input class = "hidden_form_field" id = "page_name" value = "Doctypes">
+	<input class = "hidden_form_field" id = "page_name" value = "Categories">
 	<script src = 'app.js'></script>
 </body>
 </html>

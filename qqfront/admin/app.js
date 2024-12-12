@@ -1,4 +1,6 @@
 var pathToBackend = window.location.hostname;
+var pn = $('#page_name').val()
+
 
 function errorPushWindow(msg) {
 	if (msg.responseJSON) alert(msg.responseJSON["detail"]);
@@ -28,7 +30,7 @@ $('#create_form').on('submit', function(e) {
 	e.preventDefault();
 	$('form [name="token"]').val(sessionStorage.getItem('token'));
 	$.ajax({
-			url: 'http://' + pathToBackend + ':8080/addDoctype',     
+			url: 'http://' + pathToBackend + ':8080/add' + pn,     
 			method: 'POST',
 			dataType: 'json',
 			contentType: "application/x-www-form-urlencoded",
@@ -43,7 +45,7 @@ $('#create_form').on('submit', function(e) {
 	return false;
 });
 
-function delete_position(page, id) {
+function delete_position(id, page=pn) {
 	$.ajax({
 			url: 'http://' + pathToBackend + ':8080/delete' + page,   
 			method: 'GET',
@@ -53,7 +55,7 @@ function delete_position(page, id) {
 		});
 }
 
-function hide_position(page, id) {
+function hide_position(id, page=pn) {
 	$.ajax({
 		url: 'http://' + pathToBackend + ':8080/hide' + page,     
 		method: 'POST',
@@ -69,9 +71,9 @@ function hide_position(page, id) {
 }
 
 
-function getDoctypesTable() {
+function getDoctypesTable(page=pn) {
 	$.ajax({
-			url: 'http://' + pathToBackend + ':8080/showDoctypes',     
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
 			method: 'GET',
 			dataType: 'json',
 			data: { token : sessionStorage.getItem('token') },
@@ -84,17 +86,86 @@ function getDoctypesTable() {
 						var warnIcon = "<td></td>";
 						
 						if (data[i]["stat"] != "Доступно") {
-							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\"Doctype\",\""+data[i]['id']+"\")'></td>"
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
 						}
 						else {
-							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\"Doctype\",\""+data[i]['id']+"\")'></td>"
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
 						}
 						
 						$('#doctypesListTable>tbody').append(
 							"<tr><td>" + id + "</td><td>" + data[i]["label"] + "</td><td>"
 							+ description + "</td><td>" + data[i]["stat"] + "</td>"
 							+ statIcon
-							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\"Doctype\",\"" +  id + "\")'></td>"
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
+
+function getCategoriesTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#categoriesListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var description = data[i]["description"] || "-";
+						var warnIcon = "<td></td>";
+						
+						if (data[i]["stat"] != "Доступно") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+		
+						$('#categoriesListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td><td>"
+							+ description + "</td><td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "<td><img src = 'design/services.svg' title = 'Список доступных сервисов' onclick = 'categories_avails_services(\""+ id + "\")'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
+
+function getServicesTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#categoriesListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var description = data[i]["description"] || "-";
+						var warnIcon = "<td></td>";
+						
+						if (data[i]["stat"] != "Доступно") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Отобразить позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Cкрыть позицию' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+		
+						$('#categoriesListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td><td>"
+							+ description + "</td><td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
 							+ "</tr>"
 						);
 					}
@@ -141,5 +212,11 @@ $(document).ready(function() {
 	}
 	if ($('#doctypesListTable').length) {
 		getDoctypesTable();
+	}
+	if ($('#categoriesListTable').length) {
+		getCategoriesTable();
+	}
+	if ($('#servicesListTable').length) {
+		getCategoriesTable();
 	}
 });
