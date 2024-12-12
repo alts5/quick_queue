@@ -549,7 +549,7 @@ class WindowsDAO : BaseDAO() {
             .select(Windows.label, Windows.windowId)
             .map { row ->
                 mapOf(
-                    "id" to row[Windos.windowId].toString(),
+                    "id" to row[Windows.windowId].toString(),
                     "label" to row[Windows.label],
                 )
             }
