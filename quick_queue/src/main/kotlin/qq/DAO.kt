@@ -475,7 +475,7 @@ class WindowsDAO : BaseDAO() {
      * @param label Метка для нового окна.
      * @throws IllegalArgumentException, если метка пустая.
      */
-    public fun insert_window(label: String): Boolean {
+    public fun insert_window(label: String?): Boolean {
         if (!label.equals("")) {
             database.insert(Windows) {
                 set(it.label, label)
