@@ -220,6 +220,12 @@ function getStaffTable(page=pn) {
 					for (var i = 0; i < data.length; i++) {
 						var id = data[i]["id"];
 						var warnIcon = "<td></td>";
+						var admin_stat = "Нет";
+						
+						if (data[i]["is_admin"] === 'true') {
+							console.log(1);
+							admin_stat = "Да";
+						}
 						
 						if (data[i]["stat"] != "Активен") {
 							statIcon = "<td><img src = 'design/hidden.svg' title = 'Заблокировать' onclick = 'hide_position(\""+ id + "\")'></td>"
@@ -229,7 +235,9 @@ function getStaffTable(page=pn) {
 						}
 		
 						$('#staffListTable>tbody').append(
-							"<tr><td>" + id + "</td><td>" + data[i]["label"] + "</td>"
+							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td>"
+							+ "<td>" + data[i]["login"] + "</td>"
+							+ "<td>" + admin_stat + "</td>"
 							+"<td>" + data[i]["stat"] + "</td>"
 							+ statIcon
 							+ "<td><img src = 'design/reject.svg' title = 'Удалить пользователя' onclick = 'delete_position(\""+ id + "\")'></td>"

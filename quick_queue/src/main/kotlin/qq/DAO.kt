@@ -579,6 +579,7 @@ class StaffDAO : BaseDAO() {
             database.insert(Staff) {
                 set(it.name, name)
                 set(it.login, login)
+                set(it.password, md5("P@ssw0rd"))
             }
             return true
         }
@@ -609,7 +610,7 @@ class StaffDAO : BaseDAO() {
     public fun get_staff(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(Staff)
-                .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
+                .select(Staff.name, Staff.login, Staff.staffId, Staff.stat, Staff.password, Staff.admin, Staff.token)
                 .where {
                     (Staff.staffId eq id) and (Staff.stat notEq "Заблокировано")
                 }
@@ -620,6 +621,7 @@ class StaffDAO : BaseDAO() {
                         "login" to row[Staff.login],
                         "password" to row[Staff.password],
                         "is_admin" to row[Staff.admin],
+                        "stat" to row[Staff.stat],
                         "token" to row[Staff.token]
                     )
                 }[0]
@@ -647,7 +649,7 @@ class StaffDAO : BaseDAO() {
 
     public fun get_all_staff(): List<Map<String, String?>> {
         return database.from(Staff)
-            .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .select(Staff.name, Staff.login, Staff.staffId, Staff.stat, Staff.password, Staff.admin, Staff.token)
             .map { row ->
                 mapOf(
                     "id" to row[Staff.staffId].toString(),
@@ -655,6 +657,7 @@ class StaffDAO : BaseDAO() {
                     "login" to row[Staff.login],
                     "password" to row[Staff.password],
                     "is_admin" to row[Staff.admin],
+                    "stat" to row[Staff.stat],
                     "token" to row[Staff.token]
                 )
             }
@@ -662,7 +665,7 @@ class StaffDAO : BaseDAO() {
 
     public fun get_all_visible_staff(): List<Map<String, String?>> {
         return database.from(Staff)
-            .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .select(Staff.name, Staff.login, Staff.stat, Staff.stat, Staff.staffId, Staff.password, Staff.admin, Staff.token)
             .where {
                 (Staff.stat notEq "Заблокировано")
             }
@@ -673,6 +676,7 @@ class StaffDAO : BaseDAO() {
                     "login" to row[Staff.login],
                     "password" to row[Staff.password],
                     "is_admin" to row[Staff.admin],
+                    "stat" to row[Staff.stat],
                     "token" to row[Staff.token]
                 )
             }
