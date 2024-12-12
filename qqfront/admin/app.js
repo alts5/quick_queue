@@ -208,6 +208,39 @@ function getWindowsTable(page=pn) {
 		});
 }
 
+function getStaffTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#staffListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var warnIcon = "<td></td>";
+						
+						if (data[i]["stat"] != "Активен") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Заблокировать' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Активировать' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+		
+						$('#staffListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["label"] + "</td>"
+							+"<td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить пользователя' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "<td><img src = 'design/services.svg'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
 
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
@@ -217,8 +250,8 @@ $(document).ready(function() {
 		"Категории" : "../categories", 
 		"Сервисы" : "../services", 
 		"Обслуживающие окна" : "../windows", 
-		"Сотрудники" : "../staffs",
-		"Заявители" : "../staffs",
+		"Пользователи" : "../staff",
+		"Заявители" : "../applicants",
 		"Параметры" : "../settings"
 		};
 	
@@ -256,5 +289,8 @@ $(document).ready(function() {
 	}
 	if ($('#windowsListTable').length) {
 		getWindowsTable();
+	}
+	if ($('#staffListTable').length) {
+		getStaffTable();
 	}
 });

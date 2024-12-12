@@ -395,6 +395,85 @@ fun Application.configureRouting() {
         }
 
 
+        /* ---- Окна ----*/
+
+        get("/showStaff") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_staff_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        get("/deleteStaff") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.delete_staff(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        post("/hideStaff") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["id"] != null) { "Не все поля формы заполнены" }
+            val token = formData["token"] ?: ""
+            val id = formData["id"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.change_staff_stat(id)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        post("/addStaff") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["name"] != null && formData["login"] != null) { "Не все поля формы заполнены" }
+
+            val token = formData["token"] ?: ""
+            val name = formData["name"]
+            val login = formData["login"]
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.add_new_staff(name, login)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                }
+                else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            }
+            else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
 
 
         get("/check_health"){

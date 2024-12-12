@@ -574,25 +574,27 @@ class WindowsDAO : BaseDAO() {
 }
 
 class StaffDAO : BaseDAO() {
-    public fun insert_staff(name: String, login: String) {
+    public fun insert_staff(name: String?, login: String?): Boolean {
         if (!name.equals("") && !login.equals("")) {
             database.insert(Staff) {
                 set(it.name, name)
                 set(it.login, login)
             }
+            return true
         }
+        return false
     }
 
-    public fun delete_staff(id: Int) {
+    public fun delete_staff(id: Int): Boolean {
         if (id > 0) {
-            database.update(Staff) {
-                set(it.stat, "Заблокировано")
-                where {
-                    it.staffId eq id
-                }
+            database.delete(Staff) {
+                it.staffId eq id
             }
+            return true
         }
+        return false
     }
+
     public fun update_token_staff(login: String, token: String) {
         if (!login.equals("")) {
             database.update(Staff) {
@@ -646,6 +648,21 @@ class StaffDAO : BaseDAO() {
     public fun get_all_staff(): List<Map<String, String?>> {
         return database.from(Staff)
             .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .map { row ->
+                mapOf(
+                    "id" to row[Staff.staffId].toString(),
+                    "name" to row[Staff.name],
+                    "login" to row[Staff.login],
+                    "password" to row[Staff.password],
+                    "is_admin" to row[Staff.admin],
+                    "token" to row[Staff.token]
+                )
+            }
+    }
+
+    public fun get_all_visible_staff(): List<Map<String, String?>> {
+        return database.from(Staff)
+            .select(Staff.name, Staff.login, Staff.staffId, Staff.password, Staff.admin, Staff.token)
             .where {
                 (Staff.stat notEq "Заблокировано")
             }
@@ -659,6 +676,19 @@ class StaffDAO : BaseDAO() {
                     "token" to row[Staff.token]
                 )
             }
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
+        if (id > 0) {
+            database.update(Staff) {
+                set(it.stat, stat)
+                where {
+                    it.staffId eq id
+                }
+            }
+            return true
+        }
+        return false
     }
 }
 

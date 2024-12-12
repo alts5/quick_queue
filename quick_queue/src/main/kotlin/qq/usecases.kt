@@ -126,6 +126,25 @@ class AdminServices(): BaseUC() {
             return windows.set_stat_field(id.toInt(), "Доступно");
         }
     }
+
+    /* --- Операторы --- */
+    public fun add_new_staff(name: String?, login: String?): Boolean {
+        return staff.insert_staff(name, login)
+    }
+    public fun get_staff_list(): List<Map<String, String?>> {
+        return staff.get_all_staff();
+    }
+    public fun delete_staff(id: String): Boolean {
+        return staff.delete_staff(id.toInt());
+    }
+    public fun change_staff_stat(id: String): Boolean {
+        if (staff.get_staff(id.toInt())?.get("stat").equals("Активен")) {
+            return staff.set_stat_field(id.toInt(), "Заблокирован");
+        }
+        else {
+            return staff.set_stat_field(id.toInt(), "Активен");
+        }
+    }
 }
 
 class UserServices(): BaseUC() {
