@@ -12,6 +12,16 @@ function exitLK() {
 	window.location.reload();
 }
 
+function checker() {
+	if (!getUser()) { 
+		sessionStorage.clear(); 
+		window.location.href = '/'; 
+	}
+	if (getUser()['is_admin'] != 'true') {
+		window.location.href = '/workroom'; 
+	}
+}
+
 function modal_window_controller(elem, action, row=null) {
 	if (action == 1) {
 		$('.modal_wrap_lk').css("display", "block");

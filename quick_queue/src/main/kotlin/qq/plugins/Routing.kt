@@ -49,7 +49,7 @@ fun Application.configureRouting() {
 
             var data = admin.get_staff_info_by_token(token)
             if (data != null) {
-                var data = "{\"name\" : \"${data["name"]}\"}"
+                var data = "{\"name\" : \"${data["name"]}\", \"is_admin\" : \"${data["is_admin"]}\"}"
                 call.respondText(data, ContentType.Application.Json, HttpStatusCode.OK)
             }
             else {
