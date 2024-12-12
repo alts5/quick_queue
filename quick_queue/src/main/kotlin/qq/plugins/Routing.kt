@@ -10,6 +10,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import qq.AdminServices
+import qq.UserServices
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -24,6 +25,7 @@ fun Application.configureRouting() {
     }
 
     var admin: AdminServices = AdminServices();
+    var user: UserServices = UserServices();
 
     routing {
 
@@ -478,6 +480,16 @@ fun Application.configureRouting() {
 
         get("/check_health"){
             call.respond(HttpStatusCode.OK, "OK")
+        }
+        get("/121queue"){
+            val data= mapOf("hash" to user.simpleApplicant())
+            call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+        }
+        get("/121ticket"){
+                
+        }
+        get("/queue"){
+            call.respondText(Json.encodeToString(user.getQueue()), ContentType.Application.Json, HttpStatusCode.OK)
         }
     }
 

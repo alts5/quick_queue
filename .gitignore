@@ -44,7 +44,7 @@ qqfront/Thumbs.db
 
 qqfront/node_modules/
 /.idea
-/quick_queue/.tmp
+/quick_queue/quick_queue/src/main/kotlin/qq/.env
 quick_queue/caches/8.4/fileHashes/resourceHashesCache.bin
 /quick_queue/caches
 /quick_queue/kotlin-profile
@@ -52,5 +52,6 @@ quick_queue/caches/8.4/fileHashes/resourceHashesCache.bin
 /quick_queue/wrapper
 /quick_queue/daemon
 /quick_queue/jdks
+/quick_queue/.tmp
 qqfront/admin/design/favicon.png
 /qqfront/admin/nginx-1.27.2

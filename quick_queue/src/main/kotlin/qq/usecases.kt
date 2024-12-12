@@ -148,9 +148,13 @@ class AdminServices(): BaseUC() {
 }
 
 class UserServices(): BaseUC() {
+    var services: ServicesDAO = ServicesDAO();
+    var cats: CategoriesDAO = CategoriesDAO();
+    var applicant: ApplicantsDAO = ApplicantsDAO();
+    var main: ApplicantsCategoriesWindowsDAO=ApplicantsCategoriesWindowsDAO();
+
+
     public  fun get_services_with_desc(): List<Map<String, String?>?> {
-        var services: ServicesDAO = ServicesDAO();
-        var cats: CategoriesDAO = CategoriesDAO();
 
         return emptyList()
     }
@@ -159,5 +163,21 @@ class UserServices(): BaseUC() {
         for (cat in cats.get_all_categories()){
             
         }
+    }
+    public fun simpleApplicant(): String{
+        val key=this.getRandomString(32)
+        if (!applicant.insert_applicant(key)){
+            return ""
+        }
+        val app=applicant.get_applicant_by_hash(key)
+        if (app!=null){
+            val id=app["id"].toString().toInt()
+            main.insert_applicant_category_window(id,null,null)
+        }
+        return key
+    }
+    public fun getQueue(): List<Map<String, String?>> {
+        val queue = main.get_all_applicants_categories_windows()
+        return queue
     }
 }

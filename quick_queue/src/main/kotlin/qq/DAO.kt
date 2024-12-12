@@ -447,6 +447,23 @@ class ApplicantsDAO() : BaseDAO() {
                 )
             }
     }
+    public fun get_applicant_by_hash(hash: String): Map<String, String?>? {
+        if (hash != "") {
+            return database.from(Applicants)
+                .select(Applicants.hash, Applicants.stat, Applicants.applicantId)
+                .where {
+                    (Applicants.hash eq hash)
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[Applicants.applicantId].toString(),
+                        "hash" to row[Applicants.hash],
+                        "stat" to row[Applicants.stat],
+                    )
+                }[0]
+        }
+        return null
+    }
 
     public fun get_all_visible_services(): List<Map<String, String?>> {
         return database.from(Services)
@@ -897,8 +914,8 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
      * @param categoryService Идентификатор category-service.
      * @param windowStaff Идентификатор window-staff.
      */
-    public fun insert_applicant_category_window(applicant: Int, categoryService: Int, windowStaff: Int) {
-        if (applicant > 0 && categoryService > 0 && windowStaff > 0) {
+    public fun insert_applicant_category_window(applicant: Int, categoryService: Int?, windowStaff: Int?) {
+        if (applicant > 0) {
             database.insert(Main) {
                 set(it.applicant, applicant)
                 set(it.categoryService, categoryService)
@@ -967,7 +984,7 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
                     "categoryService" to row[Main.categoryService].toString(),
                     "windowStaff" to row[Main.windowStaff].toString()
                 )
-            }
+            }.sortedBy {Main.createDate.toString()}
     }
     public fun get_count_by_status(status: String): Int {
         return database.from(Main)
