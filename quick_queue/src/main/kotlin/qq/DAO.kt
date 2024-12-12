@@ -368,6 +368,102 @@ class ServicesDAO() : BaseDAO() {
     }
 }
 
+class ApplicantsDAO() : BaseDAO() {
+    public fun insert_applicant(hash: String?): Boolean {
+        if (!hash.equals("")) {
+            database.insert(Applicants) {
+                set(it.hash, hash)
+            }
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Отмечает службу как удаленную.
+     *
+     * @param id Идентификатор службы, которая будет отмечена как удаленная.
+     */
+    public fun delete_applicants(id: Int): Boolean {
+        if (id > 0) {
+            database.delete(Applicants) {
+                it.applicantId eq id
+            }
+            return true
+        }
+        return false
+    }
+
+    public fun set_stat_field(id: Int, stat: String): Boolean {
+        if (id > 0) {
+            database.update(Applicants) {
+                set(it.stat, stat)
+                where {
+                    it.applicantId eq id
+                }
+            }
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Извлекает службу по ее идентификатору.
+     *
+     * @param id Идентификатор службы для извлечения.
+     * @return Карту, содержащую извлеченную информацию о службе, или null, если не найдено.
+     */
+    public fun get_applicant(id: Int): Map<String, String?>? {
+        if (id > 0) {
+            return database.from(Applicants)
+                .select(Applicants.hash, Applicants.stat, Applicants.applicantId)
+                .where {
+                    (Applicants.applicantId eq id)
+                }
+                .map { row ->
+                    mapOf(
+                        "id" to row[Applicants.applicantId].toString(),
+                        "hash" to row[Applicants.hash],
+                        "stat" to row[Applicants.stat],
+                    )
+                }[0]
+        }
+        return null
+    }
+
+    /**
+     * Извлекает все активные службы.
+     *
+     * @return Список карт, содержащих всю информацию об активных службах.
+     */
+    public fun get_all_services(): List<Map<String, String?>> {
+        return database.from(Applicants)
+            .select(Applicants.hash, Applicants.stat, Applicants.applicantId)
+            .map { row ->
+                mapOf(
+                    "id" to row[Applicants.applicantId].toString(),
+                    "hash" to row[Applicants.hash],
+                    "stat" to row[Applicants.stat],
+                )
+            }
+    }
+
+    public fun get_all_visible_services(): List<Map<String, String?>> {
+        return database.from(Services)
+            .select(Applicants.hash, Applicants.stat, Applicants.applicantId)
+            .where {
+                (Services.stat notEq "Заблокировано")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Applicants.applicantId].toString(),
+                    "hash" to row[Applicants.hash],
+                    "stat" to row[Applicants.stat],
+                )
+            }
+    }
+}
+
 /**
  * Представляет объект доступа к данным (DAO) для операций Windows.
  */
@@ -379,7 +475,7 @@ class WindowsDAO : BaseDAO() {
      * @param label Метка для нового окна.
      * @throws IllegalArgumentException, если метка пустая.
      */
-    public fun insert_window(label: String) {
+    public fun insert_window(label: String): Boolean {
         if (!label.equals("")) {
             database.insert(Windows) {
                 set(it.label, label)
