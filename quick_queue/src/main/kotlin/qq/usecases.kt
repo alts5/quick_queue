@@ -152,6 +152,7 @@ class UserServices(): BaseUC() {
     var cats: CategoriesDAO = CategoriesDAO();
     var applicant: ApplicantsDAO = ApplicantsDAO();
     var main: ApplicantsCategoriesWindowsDAO=ApplicantsCategoriesWindowsDAO();
+    var settings: SettingsDAO=SettingsDAO();
 
 
     public  fun get_services_with_desc(): List<Map<String, String?>?> {
@@ -179,5 +180,25 @@ class UserServices(): BaseUC() {
     public fun getQueue(): List<Map<String, String?>> {
         val queue = main.get_all_applicants_categories_windows()
         return queue
+    }
+    public fun get121Ticket(hash: String):Int? {
+        println(hash)
+        val id = applicant.get_applicant_by_hash(hash)?.get("id")?.toString()
+        if (id=="0"){
+            return null
+        }
+        var queue=this.getQueue()
+        queue = queue.filter { entry -> entry["stat"] == "Ожидает" }
+        var order=0
+        for (i in queue){
+            if (i["id"]==id){
+                return order
+            }
+            order+=1
+        }
+        return 0
+    }
+    public fun getMode(key:String):String{
+        return settings.getSettings(key)
     }
 }

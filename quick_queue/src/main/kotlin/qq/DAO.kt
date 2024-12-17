@@ -1,6 +1,7 @@
 package qq
 
 import io.ktor.http.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import java.math.BigInteger
@@ -100,7 +101,12 @@ class DocumentTypesDAO() : BaseDAO() {
     public fun get_document_type(id: Int): Map<String, String?>? {
         if (id > 0) {
             return database.from(DocumentTypes)
-                .select(DocumentTypes.label, DocumentTypes.stat, DocumentTypes.description, DocumentTypes.documentTypeId)
+                .select(
+                    DocumentTypes.label,
+                    DocumentTypes.stat,
+                    DocumentTypes.description,
+                    DocumentTypes.documentTypeId
+                )
                 .where {
                     (DocumentTypes.documentTypeId eq id)
                 }
@@ -133,6 +139,7 @@ class DocumentTypesDAO() : BaseDAO() {
                 )
             }
     }
+
     public fun get_visible_document_types(): List<Map<String, String?>> {
         return database.from(DocumentTypes)
             .select(DocumentTypes.label, DocumentTypes.stat, DocumentTypes.description, DocumentTypes.documentTypeId)
@@ -241,6 +248,7 @@ class CategoriesDAO() : BaseDAO() {
                 )
             }
     }
+
     public fun get_all_visible_categories(): List<Map<String, String?>> {
         return database.from(Categories)
             .select(Categories.name, Categories.description, Categories.categoryId)
@@ -447,6 +455,7 @@ class ApplicantsDAO() : BaseDAO() {
                 )
             }
     }
+
     public fun get_applicant_by_hash(hash: String): Map<String, String?>? {
         if (hash != "") {
             return database.from(Applicants)
@@ -682,7 +691,16 @@ class StaffDAO : BaseDAO() {
 
     public fun get_all_visible_staff(): List<Map<String, String?>> {
         return database.from(Staff)
-            .select(Staff.name, Staff.login, Staff.stat, Staff.stat, Staff.staffId, Staff.password, Staff.admin, Staff.token)
+            .select(
+                Staff.name,
+                Staff.login,
+                Staff.stat,
+                Staff.stat,
+                Staff.staffId,
+                Staff.password,
+                Staff.admin,
+                Staff.token
+            )
             .where {
                 (Staff.stat notEq "Заблокировано")
             }
@@ -982,10 +1000,12 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
                     "id" to row[Main.applicantsWsId].toString(),
                     "applicant" to row[Main.applicant].toString(),
                     "categoryService" to row[Main.categoryService].toString(),
-                    "windowStaff" to row[Main.windowStaff].toString()
+                    "windowStaff" to row[Main.windowStaff].toString(),
+                    "stat" to row[Main.stat].toString(),
                 )
-            }.sortedBy {Main.createDate.toString()}
+            }.sortedBy { Main.createDate.toString() }
     }
+
     public fun get_count_by_status(status: String): Int {
         return database.from(Main)
             .select(Main.stat)
@@ -1009,8 +1029,7 @@ class CategoriesServicesDAO() : BaseDAO() {
                     set(it.service, serviceID)
                 }
             }
-        }
-        catch(e: Exception) {
+        } catch (e: Exception) {
             return false
         }
         return true
@@ -1051,6 +1070,7 @@ class CategoriesServicesDAO() : BaseDAO() {
         }
         return null;
     }
+
     public fun get_all_categories_services(id: Int): List<Map<String, String>>? {
         return database.from(CategoriesServices)
             .select(CategoriesServices.categoriesServicesId, CategoriesServices.category, CategoriesServices.service)
@@ -1065,5 +1085,33 @@ class CategoriesServicesDAO() : BaseDAO() {
                 )
             }
 
+    }
+}
+
+class SettingsDAO() : BaseDAO() {
+    public fun setupSettings(single: Boolean) {
+        try {
+            if (single) {
+                database.update(Settings) {
+                    set(it.value, "single")
+                }
+            } else {
+                database.update(Settings) {
+                    set(it.value, "multi")
+                }
+            }
+
+        } catch (e: Exception) {
+            return
+        }
+        return
+    }
+
+    public fun getSettings(key: String): String {
+         return database.from(Settings).select(Settings.value).where(Settings.name eq key).map{ row ->
+             mapOf(
+                 "value" to row[Settings.value].toString(),
+             )
+         }[0].toString()
     }
 }

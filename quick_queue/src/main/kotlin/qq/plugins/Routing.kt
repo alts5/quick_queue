@@ -39,8 +39,7 @@ fun Application.configureRouting() {
             if (token_return != null) {
                 var token = "{\"token\" : \"${token_return}\"}"
                 call.respondText(token, ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized, message = "Неверный логин или пароль")
             }
         }
@@ -53,8 +52,7 @@ fun Application.configureRouting() {
             if (data != null) {
                 var data = "{\"name\" : \"${data["name"]}\", \"is_admin\" : \"${data["is_admin"]}\"}"
                 call.respondText(data, ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -67,8 +65,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_dashboard_stat()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -82,8 +79,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_doctypes_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -98,12 +94,10 @@ fun Application.configureRouting() {
                 var data = admin.delete_doctype(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -119,12 +113,10 @@ fun Application.configureRouting() {
                 var data = admin.change_doctype_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -143,12 +135,10 @@ fun Application.configureRouting() {
                 var data = admin.add_new_doctype(label, description)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -163,8 +153,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_categories_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -179,12 +168,10 @@ fun Application.configureRouting() {
                 var data = admin.delete_category(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -200,12 +187,10 @@ fun Application.configureRouting() {
                 var data = admin.change_category_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -224,12 +209,10 @@ fun Application.configureRouting() {
                 var data = admin.add_new_category(name, description)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -244,8 +227,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_services_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -260,12 +242,10 @@ fun Application.configureRouting() {
                 var data = admin.delete_service(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -281,12 +261,10 @@ fun Application.configureRouting() {
                 var data = admin.change_service_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -305,12 +283,10 @@ fun Application.configureRouting() {
                 var data = admin.add_new_service(name, description)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -326,8 +302,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_windows_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -342,12 +317,10 @@ fun Application.configureRouting() {
                 var data = admin.delete_window(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -363,12 +336,10 @@ fun Application.configureRouting() {
                 var data = admin.change_window_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -386,12 +357,10 @@ fun Application.configureRouting() {
                 var data = admin.add_new_window(name)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -407,8 +376,7 @@ fun Application.configureRouting() {
             if (staffInfo != null) {
                 var data = admin.get_staff_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -423,12 +391,10 @@ fun Application.configureRouting() {
                 var data = admin.delete_staff(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -444,12 +410,10 @@ fun Application.configureRouting() {
                 var data = admin.change_staff_stat(id)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
@@ -467,28 +431,40 @@ fun Application.configureRouting() {
                 var data = admin.add_new_staff(name, login)
                 if (data) {
                     call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(HttpStatusCode.InternalServerError)
                 }
-            }
-            else {
+            } else {
                 call.respond(HttpStatusCode.Unauthorized)
             }
         }
 
 
-        get("/check_health"){
+        get("/check_health") {
             call.respond(HttpStatusCode.OK, "OK")
         }
-        get("/121queue"){
-            val data= mapOf("hash" to user.simpleApplicant())
+        get("/get_mode"){
+            call.respond(HttpStatusCode.OK,user.getMode("systemMode"))
+        }
+        get("/121queue") {
+            val data = mapOf("hash" to user.simpleApplicant())
             call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
         }
-        get("/121ticket"){
-                
+        get("/121ticket") {
+            val headers = call.request.headers
+            val hash = headers["hash"]
+
+            if (hash == null || hash.isEmpty()) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@get
+            }
+            val i = user.get121Ticket(hash)
+            if (i != null) {
+                val data = mapOf("items_before" to i)
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            }
         }
-        get("/queue"){
+        get("/queue") {
             call.respondText(Json.encodeToString(user.getQueue()), ContentType.Application.Json, HttpStatusCode.OK)
         }
     }
