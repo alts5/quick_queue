@@ -443,6 +443,7 @@ fun Application.configureRouting() {
 
         get("/systemMode") {
             var data = system.getSysMode()
+            println(data)
             call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
         }
         get("/system_settings"){

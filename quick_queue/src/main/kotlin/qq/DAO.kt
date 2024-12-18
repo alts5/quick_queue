@@ -1108,7 +1108,6 @@ class SettingsDAO() : BaseDAO() {
     }
 
     public fun get_setting(sett: String): Map<String, String?> {
-        println(sett)
         return database.from(Setting)
             .select(Setting.setting, Setting.value)
             .where {
