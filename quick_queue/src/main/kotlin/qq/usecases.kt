@@ -221,6 +221,7 @@ class SystemServices(): BaseUC() {
             "startTime" to settings.get_setting("startTime")["value"],
             "endTime" to settings.get_setting("endTime")["value"],
             "footerName" to settings.get_setting("footerName")["value"],
+            "logoPath" to settings.get_setting("logoPath")["value"],
             )
         return mappa
     }
