@@ -220,6 +220,7 @@ class SystemServices(): BaseUC() {
             "systemMode" to settings.get_setting("systemMode")["value"],
             "startTime" to settings.get_setting("startTime")["value"],
             "endTime" to settings.get_setting("endTime")["value"],
+            "footerName" to settings.get_setting("footerName")["value"],
             )
         return mappa
     }
