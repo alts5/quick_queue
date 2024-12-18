@@ -477,6 +477,27 @@ fun Application.configureRouting() {
             call.respondText(Json.encodeToString(user.getQueue()), ContentType.Application.Json, HttpStatusCode.OK)
         }
 
+        post("/updateSettings") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null) { "Не все поля формы заполнены" }
+
+            val token = formData["token"] ?: ""
+            val systemMode = formData["systemMode"] ?: ""
+            val startTime = formData["startTime"] ?: ""
+            val endTime = formData["endTime"]  ?: ""
+            val footerName = formData["footerName"] ?: ""
+            val logoPath = formData["logoPath"] ?: ""
+
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = system.update_settings(systemMode, startTime, endTime,footerName, logoPath)
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
     }
 
 

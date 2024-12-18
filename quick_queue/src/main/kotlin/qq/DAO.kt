@@ -1120,4 +1120,14 @@ class SettingsDAO() : BaseDAO() {
                 )
             }[0]
     }
+
+    public fun update_field(set:String, value: String): Boolean {
+        database.update(Setting) {
+            set(it.value, value)
+            where {
+                it.setting eq set
+            }
+        }
+        return true
+    }
 }

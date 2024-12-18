@@ -226,4 +226,12 @@ class SystemServices(): BaseUC() {
         return mappa
     }
 
+    public fun update_settings(systemMode: String, startTime: String, endTime: String,footerName: String, logoPath: String) {
+        settings.update_field("systemMode", systemMode);
+        settings.update_field("startTime", startTime);
+        settings.update_field("endTime", endTime);
+        settings.update_field("footerName", footerName);
+        settings.update_field("logoPath", logoPath);
+    }
+
 }

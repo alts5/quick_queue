@@ -61,6 +61,26 @@ $('#create_form').on('submit', function(e) {
 	return false;
 });
 
+$('#settings_form').on('submit', function(e) {
+	e.preventDefault();
+	$('form [name="token"]').val(sessionStorage.getItem('token'));
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/update' + pn,     
+			method: 'POST',
+			dataType: 'json',
+			contentType: "application/x-www-form-urlencoded",
+			data: $(this).serialize(),
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			}
+		});
+	return false;
+});
+
+
 function delete_position(id, page=pn) {
 	$.ajax({
 			url: 'http://' + pathToBackend + ':8080/delete' + page,   
@@ -279,27 +299,22 @@ function getStaffTable(page=pn) {
 		});
 }
 
-function getSettingsTable(page=pn) {
+function getSettings() {
 	$.ajax({
-			url: 'http://' + pathToBackend + ':8080/show' + page,     
-			method: 'GET',
-			dataType: 'json',
-			data: { token : sessionStorage.getItem('token') },
-			success: function(data) {
-				if (data != undefined) {
-					$('#settingListTable>tbody').empty();
-					for (var i = 0; i < data.length; i++) {
-						var id = data[i]["id"];
-						
-						$('#settingListTable>tbody').append(
-							"<tr><td>" + data[i]["setting"] + "</td><td>" + data[i]["value"] + "</td>"
-							+ "<td><img src = 'design/services.svg'></td>"
-							+ "</tr>"
-						);
-					}
-				}
+		url: 'http://' + pathToBackend + ':8080/system_settings',     
+		method: 'GET',
+		dataType: 'json',
+		data: { token : sessionStorage.getItem('token') },
+		success: function(data) {
+			if (data != undefined) {
+				$('#settings_form [name=systemMode]').val(data["systemMode"]);
+				$('#settings_form [name=startTime]').val(data["startTime"]);
+				$('#settings_form [name=endTime]').val(data["endTime"]);
+				$('#settings_form [name=footerName]').val(data["footerName"]);
+				$('#settings_form [name=logoPath]').val(data["logoPath"]);
 			}
-			});Врем
+		}
+	});
 }
 
 $(document).ready(function() {
@@ -353,4 +368,7 @@ $(document).ready(function() {
 	if ($('#staffListTable').length) {
 		getStaffTable();
 	}
-});
+	if ($('#settings_form').length) {
+		getSettings();
+	}
+	});
