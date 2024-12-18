@@ -445,7 +445,9 @@ fun Application.configureRouting() {
             var data = system.getSysMode()
             call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
         }
-
+        get("/system_settings"){
+            call.respondText(Json.encodeToString(system.getSys()), ContentType.Application.Json, HttpStatusCode.OK )
+        }
         get("/check_health") {
             call.respond(HttpStatusCode.OK, "OK")
         }

@@ -213,6 +213,15 @@ class SystemServices(): BaseUC() {
     var settings: SettingsDAO = SettingsDAO();
 
     public fun getSysMode(): String? {
-        return settings.get_setting("systemMode")["systemMode"];
+        return settings.get_setting("systemMode")["value"];
     }
+    public fun getSys(): Map<String, String?> {
+        var mappa = mapOf(
+            "systemMode" to settings.get_setting("systemMode")["value"],
+            "startTime" to settings.get_setting("startTime")["value"],
+            "endTime" to settings.get_setting("endTime")["value"],
+            )
+        return mappa
+    }
+
 }
