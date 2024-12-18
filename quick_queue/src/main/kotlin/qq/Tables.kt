@@ -98,3 +98,9 @@ object WindowsStaffs : Table<Nothing>("windows_staffs") {
     val createDate = timestamp("create_date")
     val blockDate = timestamp("block_date")
 }
+
+object Setting : Table<Nothing>("settings") {
+    val id = int("id").primaryKey()
+    val setting = varchar("setting")
+    val value = varchar("value")
+}

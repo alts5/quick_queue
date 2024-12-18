@@ -151,54 +151,68 @@ class UserServices(): BaseUC() {
     var services: ServicesDAO = ServicesDAO();
     var cats: CategoriesDAO = CategoriesDAO();
     var applicant: ApplicantsDAO = ApplicantsDAO();
-    var main: ApplicantsCategoriesWindowsDAO=ApplicantsCategoriesWindowsDAO();
-    var settings: SettingsDAO=SettingsDAO();
+    var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
+    var settings: SettingsDAO = SettingsDAO();
 
 
-    public  fun get_services_with_desc(): List<Map<String, String?>?> {
+    public fun get_services_with_desc(): List<Map<String, String?>?> {
 
         return emptyList()
     }
-    public fun get_categories(){
+
+    public fun get_categories() {
         var cats: CategoriesDAO = CategoriesDAO();
-        for (cat in cats.get_all_categories()){
-            
+        for (cat in cats.get_all_categories()) {
+
         }
     }
-    public fun simpleApplicant(): String{
-        val key=this.getRandomString(32)
-        if (!applicant.insert_applicant(key)){
+
+    public fun simpleApplicant(): String {
+        val key = this.getRandomString(32)
+        if (!applicant.insert_applicant(key)) {
             return ""
         }
-        val app=applicant.get_applicant_by_hash(key)
-        if (app!=null){
-            val id=app["id"].toString().toInt()
-            main.insert_applicant_category_window(id,null,null)
+        val app = applicant.get_applicant_by_hash(key)
+        if (app != null) {
+            val id = app["id"].toString().toInt()
+            main.insert_applicant_category_window(id, null, null)
         }
         return key
     }
+
     public fun getQueue(): List<Map<String, String?>> {
         val queue = main.get_all_applicants_categories_windows()
         return queue
     }
-    public fun get121Ticket(hash: String):Int? {
+
+    public fun get121Ticket(hash: String): Int? {
         println(hash)
         val id = applicant.get_applicant_by_hash(hash)?.get("id")?.toString()
-        if (id=="0"){
+        if (id == "0") {
             return null
         }
-        var queue=this.getQueue()
+        var queue = this.getQueue()
         queue = queue.filter { entry -> entry["stat"] == "Ожидает" }
-        var order=0
-        for (i in queue){
-            if (i["id"]==id){
+        var order = 0
+        for (i in queue) {
+            if (i["id"] == id) {
                 return order
             }
-            order+=1
+            order += 1
         }
         return 0
     }
-    public fun getMode(key:String):String{
-        return settings.getSettings(key)
+
+    public fun getMode(key: String): Map<String, String?> {
+        return settings.get_setting(key)
+
+    }
+}
+
+class SystemServices(): BaseUC() {
+    var settings: SettingsDAO = SettingsDAO();
+
+    public fun getSysMode(): String? {
+        return settings.get_setting("systemMode")["systemMode"];
     }
 }

@@ -1107,11 +1107,18 @@ class SettingsDAO() : BaseDAO() {
         return
     }
 
-    public fun getSettings(key: String): String {
-         return database.from(Settings).select(Settings.value).where(Settings.name eq key).map{ row ->
-             mapOf(
-                 "value" to row[Settings.value].toString(),
-             )
-         }[0].toString()
+    public fun get_setting(sett: String): Map<String, String?> {
+        println(sett)
+        return database.from(Setting)
+            .select(Setting.setting, Setting.value)
+            .where {
+                (Setting.setting eq sett)
+            }
+            .map { row ->
+                mapOf(
+                    "setting" to row[Setting.setting].toString(),
+                    "value" to row[Setting.value],
+                )
+            }[0]
     }
 }

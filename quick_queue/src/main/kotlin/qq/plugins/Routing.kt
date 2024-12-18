@@ -10,6 +10,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import qq.AdminServices
+import qq.SystemServices
 import qq.UserServices
 
 fun Application.configureRouting() {
@@ -24,8 +25,9 @@ fun Application.configureRouting() {
         allowHeader("token")
     }
 
-    var admin: AdminServices = AdminServices();
-    var user: UserServices = UserServices();
+    var admin: AdminServices = AdminServices()
+    var user: UserServices = UserServices()
+    var system: SystemServices = SystemServices()
 
     routing {
 
@@ -439,6 +441,10 @@ fun Application.configureRouting() {
             }
         }
 
+        get("/systemMode") {
+            var data = system.getSysMode()
+            call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+        }
 
         get("/check_health") {
             call.respond(HttpStatusCode.OK, "OK")
@@ -467,6 +473,8 @@ fun Application.configureRouting() {
         get("/queue") {
             call.respondText(Json.encodeToString(user.getQueue()), ContentType.Application.Json, HttpStatusCode.OK)
         }
+
     }
+
 
 }

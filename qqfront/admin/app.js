@@ -22,6 +22,12 @@ function checker() {
 	}
 }
 
+function singleCheckerMode() {
+	if (getSystemMode() == 'single') {
+		window.location.href = '/workroom'; 
+	}
+}
+
 function modal_window_controller(elem, action, row=null) {
 	if (action == 1) {
 		$('.modal_wrap_lk').css("display", "block");
@@ -78,6 +84,19 @@ function hide_position(id, page=pn) {
 			errorPushWindow(data);
 		}
 	});
+}
+
+function getSystemMode() {
+	var f = null;
+	$.ajax({
+		'async': false,
+		url: 'http://' + pathToBackend + ':8080/systemMode',     
+		method: 'GET',
+		success: function(data){
+			f = data;
+		},
+	});
+	return f;
 }
 
 
@@ -258,6 +277,29 @@ function getStaffTable(page=pn) {
 				}
 			}
 		});
+}
+
+function getSettingsTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#settingListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						
+						$('#settingListTable>tbody').append(
+							"<tr><td>" + data[i]["setting"] + "</td><td>" + data[i]["value"] + "</td>"
+							+ "<td><img src = 'design/services.svg'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+			});Врем
 }
 
 $(document).ready(function() {
