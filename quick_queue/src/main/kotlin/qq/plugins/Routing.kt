@@ -481,6 +481,22 @@ fun Application.configureRouting() {
         get("/queue") {
             call.respondText(Json.encodeToString(user.getQueue()), ContentType.Application.Json, HttpStatusCode.OK)
         }
+        get("/queueAdmin") {
+            if (system.getSysMode() == "multi") {
+                call.respondText(
+                    Json.encodeToString(system.getQueue()),
+                    ContentType.Application.Json,
+                    HttpStatusCode.OK
+                )
+            }
+            else {
+                call.respondText(
+                    Json.encodeToString(system.getQueueSingle()),
+                    ContentType.Application.Json,
+                    HttpStatusCode.OK
+                )
+            }
+        }
 
         post("/updateSettings") {
             val formData = call.receiveParameters()

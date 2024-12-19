@@ -319,7 +319,7 @@ function getSettings() {
 
 function getQueueTable(page=pn) {
 	$.ajax({
-			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			url: 'http://' + pathToBackend + ':8080/queueAdmin',     
 			method: 'GET',
 			dataType: 'json',
 			data: { token : sessionStorage.getItem('token') },
@@ -327,30 +327,32 @@ function getQueueTable(page=pn) {
 				if (data != undefined) {
 					$('#queueListTable>tbody').empty();
 					for (var i = 0; i < data.length; i++) {
+						console.log(data);
 						var id = data[i]["id"];
-						var warnIcon = "<td></td>";
-						var admin_stat = "Нет";
+						var stat = "";
 						
-						if (data[i]["is_admin"] === 'true') {
-							console.log(1);
-							admin_stat = "Да";
-						}
-						
-						if (data[i]["stat"] != "Активен") {
-							statIcon = "<td><img src = 'design/hidden.svg' title = 'Заблокировать' onclick = 'hide_position(\""+ id + "\")'></td>"
-						}
-						else {
-							statIcon = "<td><img src = 'design/showed.svg' title = 'Активировать' onclick = 'hide_position(\""+ id + "\")'></td>"
-						}
-		
+						switch(data[i]["stat"]) {
+							case 'Ожидает':
+								stat = "<td><div class = 'stat' data-type='wait'>Ожидает</div></td>"
+								break;
+							case 'Приглашен':
+								stat = "<td><div class = 'stat' data-type = 'invite'>Приглашён</div></td>"
+								break;
+						}	
+											
+						var gh = data[i]["service"] || '-';
+						var ti = data[i]["time"].slice(0,-1).split("T");
+
 						$('#queueListTable>tbody').append(
-							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td>"
-							+ "<td>" + data[i]["login"] + "</td>"
-							+ "<td>" + admin_stat + "</td>"
-							+"<td>" + data[i]["stat"] + "</td>"
-							+ statIcon
-							+ "<td><img src = 'design/reject.svg' title = 'Удалить пользователя' onclick = 'delete_position(\""+ id + "\")'></td>"
-							+ "<td><img src = 'design/services.svg'></td>"
+							"<tr>"
+							+ "<td>" + id + "</td>"
+							+ "<td>" + data[i]["fio"] + "</td>"
+							+ "<td>" + gh + "</td>"
+							+ "<td>" + ti[0] + " " + ti[1] + "</td>"
+							+ stat
+							+ "<td><img title = 'Пригласить' src = 'design/invite.svg'></td>"
+							+ "<td><img title = 'Перенаправить'  src = 'design/redirect.svg'></td>"
+							+ "<td><img title = 'Снять с очереди'  src = 'design/stop.svg'></td>"
 							+ "</tr>"
 						);
 					}

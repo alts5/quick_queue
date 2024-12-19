@@ -185,6 +185,7 @@ class UserServices(): BaseUC() {
         return queue
     }
 
+
     public fun get121Ticket(hash: String): Int? {
         println(hash)
         val id = applicant.get_applicant_by_hash(hash)?.get("id")?.toString()
@@ -215,6 +216,7 @@ class UserServices(): BaseUC() {
 
 class SystemServices(): BaseUC() {
     var settings: SettingsDAO = SettingsDAO();
+    var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
 
     public fun getSysMode(): String? {
         return settings.get_setting("systemMode")["value"];
@@ -237,5 +239,16 @@ class SystemServices(): BaseUC() {
         settings.update_field("footerName", footerName);
         settings.update_field("logoPath", logoPath);
     }
+
+    public fun getQueue(): List<Map<String, String?>> {
+        val queue = main.get_all_applicants_categories_windows_join();
+        return queue
+    }
+
+    public fun getQueueSingle(): List<Map<String, String?>> {
+        val queue = main.get_all_applicants_categories_windows_join_single();
+        return queue
+    }
+
 
 }

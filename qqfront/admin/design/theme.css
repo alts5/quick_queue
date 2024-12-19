@@ -251,6 +251,26 @@ input:-webkit-autofill {
 	width: 100%;
 }
 
+.stat {
+	color: white;
+	padding: 10px;
+	border-radius: 10px;
+	width: 150px;
+	font-size: 16px;
+}
+
+.stat[data-type=invite] {
+	color: #00bf00;
+	background: white;
+	border: 1px solid #00bf00;
+}
+
+.stat[data-type=wait] { 
+	color: #1E90FF;
+	background: white;
+	border: 1px solid #1E90FF;
+}
+
 .flex_div button:nth-child(4n+3) {
 	background: #00bf00;
 }

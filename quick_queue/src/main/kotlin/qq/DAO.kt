@@ -1,9 +1,12 @@
 package qq
 
 import io.ktor.http.*
+import io.ktor.server.util.*
+import kotlinx.datetime.toLocalTime
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
+import org.ktorm.support.mysql.naturalJoin
 import java.math.BigInteger
 import java.security.MessageDigest
 //import java.security.Timestamp
@@ -991,7 +994,7 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
      */
     public fun get_all_applicants_categories_windows(): List<Map<String, String>> {
         return database.from(Main)
-            .select(Main.applicant, Main.categoryService, Main.windowStaff)
+            .select(Main.applicant, Main.categoryService, Main.windowStaff, Main.applicantsWsId, Main.stat)
             .where {
                 (Main.stat notEq "Заблокировано")
             }
@@ -1005,6 +1008,48 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
                 )
             }.sortedBy { Main.createDate.toString() }
     }
+
+    public fun get_all_applicants_categories_windows_join(): List<Map<String, String>> {
+        return database.from(Main)
+            .innerJoin(ApplicantsDocuments, on = Main.applicant eq ApplicantsDocuments.applicant)
+            .innerJoin(CategoriesServices, on = Main.categoryService eq CategoriesServices.categoriesServicesId)
+            .innerJoin(Services, on = CategoriesServices.service eq Services.serviceId)
+            .select(Main.applicantsWsId,ApplicantsDocuments.documentOwner, Services.name, Main.stat, Main.createDate)
+            .where {
+                (Main.stat eq "Ожидает") or ( Main.stat eq "Приглашен")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Main.applicantsWsId].toString(),
+                    "fio" to row[ApplicantsDocuments.documentOwner].toString(),
+                    "time" to row[Main.createDate].toString(),
+                    "service" to row[Services.name].toString(),
+                    "stat" to row[Main.stat].toString()
+                )
+            }
+
+            .sortedBy { Main.createDate.toString() }
+    }
+
+    public fun get_all_applicants_categories_windows_join_single(): List<Map<String, String>> {
+        return database.from(Main)
+            .leftJoin(ApplicantsDocuments, on = Main.applicant eq ApplicantsDocuments.applicant)
+            .select(Main.applicantsWsId,ApplicantsDocuments.documentOwner, Main.stat, Main.createDate)
+            .where {
+                (Main.stat eq "Ожидает") or ( Main.stat eq "Приглашен")
+            }
+            .map { row ->
+                mapOf(
+                    "id" to row[Main.applicantsWsId].toString(),
+                    "fio" to row[ApplicantsDocuments.documentOwner].toString(),
+                    "time" to row[Main.createDate].toString(),
+                    "stat" to row[Main.stat].toString()
+                )
+            }
+
+            .sortedBy { Main.createDate.toString() }
+    }
+
 
     public fun get_count_by_status(status: String): Int {
         return database.from(Main)
@@ -1086,6 +1131,7 @@ class CategoriesServicesDAO() : BaseDAO() {
             }
 
     }
+
 }
 
 class SettingsDAO() : BaseDAO() {
