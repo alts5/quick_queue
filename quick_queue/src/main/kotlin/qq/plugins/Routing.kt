@@ -455,6 +455,11 @@ fun Application.configureRouting() {
         get("/get_mode"){
             call.respond(HttpStatusCode.OK,user.getMode("systemMode"))
         }
+        get("/get_services") {
+                var data = user.get_visible_services_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+        }
+
         get("/121queue") {
             val data = mapOf("hash" to user.simpleApplicant())
             call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)

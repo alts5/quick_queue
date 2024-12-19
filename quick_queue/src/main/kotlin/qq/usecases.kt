@@ -207,6 +207,10 @@ class UserServices(): BaseUC() {
         return settings.get_setting(key)
 
     }
+    public fun get_visible_services_list(): List<Map<String, String?>> {
+        return services.get_all_visible_services();
+    }
+
 }
 
 class SystemServices(): BaseUC() {

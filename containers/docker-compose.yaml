@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=admin
-      -MYSQL_DATABASE=quick_queue
+      - MYSQL_DATABASE=quick_queue
     ports:
       - '3306:3306'
     volumes:
