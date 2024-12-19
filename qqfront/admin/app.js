@@ -317,6 +317,48 @@ function getSettings() {
 	});
 }
 
+function getQueueTable(page=pn) {
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/show' + page,     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data) {
+				if (data != undefined) {
+					$('#queueListTable>tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						var warnIcon = "<td></td>";
+						var admin_stat = "Нет";
+						
+						if (data[i]["is_admin"] === 'true') {
+							console.log(1);
+							admin_stat = "Да";
+						}
+						
+						if (data[i]["stat"] != "Активен") {
+							statIcon = "<td><img src = 'design/hidden.svg' title = 'Заблокировать' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+						else {
+							statIcon = "<td><img src = 'design/showed.svg' title = 'Активировать' onclick = 'hide_position(\""+ id + "\")'></td>"
+						}
+		
+						$('#queueListTable>tbody').append(
+							"<tr><td>" + id + "</td><td>" + data[i]["name"] + "</td>"
+							+ "<td>" + data[i]["login"] + "</td>"
+							+ "<td>" + admin_stat + "</td>"
+							+"<td>" + data[i]["stat"] + "</td>"
+							+ statIcon
+							+ "<td><img src = 'design/reject.svg' title = 'Удалить пользователя' onclick = 'delete_position(\""+ id + "\")'></td>"
+							+ "<td><img src = 'design/services.svg'></td>"
+							+ "</tr>"
+						);
+					}
+				}
+			}
+		});
+}
+
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
 	var hrefs = {
@@ -370,5 +412,8 @@ $(document).ready(function() {
 	}
 	if ($('#settings_form').length) {
 		getSettings();
+	}
+	if ($('#queueListTable').length) {
+		getQueueTable();
 	}
 	});
