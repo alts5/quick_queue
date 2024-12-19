@@ -497,6 +497,10 @@ fun Application.configureRouting() {
                 )
             }
         }
+        get("/change_status_in_queue") {
+            val formData = call.request.queryParameters
+            call.respondText(Json.encodeToString(admin.set_app_status(formData["person"], formData["stat"])), ContentType.Application.Json, HttpStatusCode.OK)
+        }
 
         post("/updateSettings") {
             val formData = call.receiveParameters()

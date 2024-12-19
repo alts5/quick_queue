@@ -317,6 +317,18 @@ function getSettings() {
 	});
 }
 
+function change_status(id, stat) {
+	$.ajax({
+		url: 'http://' + pathToBackend + ':8080/change_status_in_queue',     
+		method: 'GET',
+		dataType: 'json',
+		data: { token : sessionStorage.getItem('token'), 'stat' : stat, 'person' : id },
+		success: function(data) {
+			window.location.reload();
+		}
+	});
+}
+
 function getQueueTable(page=pn) {
 	$.ajax({
 			url: 'http://' + pathToBackend + ':8080/queueAdmin',     
@@ -333,10 +345,10 @@ function getQueueTable(page=pn) {
 						
 						switch(data[i]["stat"]) {
 							case 'Ожидает':
-								stat = "<td><div class = 'stat' data-type='wait'>Ожидает</div></td>"
+								stat = "<td style='padding: 0 30px'><div title = 'Завершить' class = 'stat' data-type='wait' onclick = 'change_status(\""+ id + "\",\"Обслужен\")' >Ожидает</div></td>"
 								break;
 							case 'Приглашен':
-								stat = "<td><div class = 'stat' data-type = 'invite'>Приглашён</div></td>"
+								stat = "<td style='padding: 0 30px'><div title = 'Завершить' class = 'stat' data-type = 'invite' onclick = 'change_status(\""+ id + "\",\"Обслужен\")'>Приглашён</div></td>"
 								break;
 						}	
 											
@@ -350,9 +362,10 @@ function getQueueTable(page=pn) {
 							+ "<td>" + gh + "</td>"
 							+ "<td>" + ti[0] + " " + ti[1] + "</td>"
 							+ stat
-							+ "<td><img title = 'Пригласить' src = 'design/invite.svg'></td>"
-							+ "<td><img title = 'Перенаправить'  src = 'design/redirect.svg'></td>"
-							+ "<td><img title = 'Снять с очереди'  src = 'design/stop.svg'></td>"
+							+ "<td><img onclick = 'change_status(\""+ id + "\",\"Приглашен\")' title = 'Пригласить' src = 'design/invite.svg'></td>"
+							+ "<td><img onclick = 'change_status(\""+ id + "\",\"Ожидает\")' title = 'Перенаправить'  src = 'design/redirect.svg'></td>"
+							+ "<td><img onclick = 'change_status(\""+ id + "\",\"Снят\")' title = 'Снять с очереди'  src = 'design/stop.svg'></td>"
+							
 							+ "</tr>"
 						);
 					}

@@ -145,6 +145,10 @@ class AdminServices(): BaseUC() {
             return staff.set_stat_field(id.toInt(), "Активен");
         }
     }
+
+    public fun set_app_status(id: String?, stat: String?) {
+        main.update_stat(id, stat);
+    }
 }
 
 class UserServices(): BaseUC() {
@@ -212,6 +216,7 @@ class UserServices(): BaseUC() {
         return services.get_all_visible_services();
     }
 
+
 }
 
 class SystemServices(): BaseUC() {
@@ -249,6 +254,7 @@ class SystemServices(): BaseUC() {
         val queue = main.get_all_applicants_categories_windows_join_single();
         return queue
     }
+
 
 
 }

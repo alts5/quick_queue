@@ -1063,6 +1063,18 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
                 )
             }.size
     }
+
+    public fun update_stat(id: String?, stat:String?){
+        if (id != null) {
+        database.update(Main){
+            set(Main.stat, stat)
+                where {
+                    (Main.applicantsWsId eq id.toInt())
+                }
+            }
+        }
+
+    }
 }
 
 class CategoriesServicesDAO() : BaseDAO() {
