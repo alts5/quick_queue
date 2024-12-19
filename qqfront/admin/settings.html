@@ -26,12 +26,16 @@
 		<div class = "body_header">
 			<h2>Параметры системы</h2>
 			<p>В данном разделе Вы можете осуществлять управление настройками системы</p>
-		</div>		
+		</div>
+		<div class = "flex_div">
+			<button onclick = "$('#settings_form').submit()">Сохранить настройки</button>
+		</div>
+		<form id = 'settings_form'>	
 		<table>
 			<tr>
 				<td>Режим работы системы</td>
 				<td colspan = "2">
-					<select>
+					<select name = "systemMode">
 						<option value = "single">Одна услуга – одно окно</option>
 						<option value = "multi">Много услуг – много окон</option>
 					</select>
@@ -39,11 +43,21 @@
 			</tr>
 			<tr>
 				<td>Период доступности записи в очередь</td>
-				<td><input name = "name" placeholder = "12:00" required type = "time"></td>
-				<td><input name = "name" placeholder = "14:00" required type = "time"></td>
+				<td><input name = "startTime" placeholder = "12:00" required type = "time"></td>
+				<td><input name = "endTime" placeholder = "14:00" required type = "time"></td>
 					
 			</tr>
+			<tr>
+				<td>Надпись снизу экрана</td>
+				<td colspan = "2"><input name = "footerName" placeholder = "ООО 'Компания'"></td>
+			</tr>
+			<tr>
+				<td>Логотип</td>
+				<td colspan = "2"><input name = "logoPath" placeholder = "http://localhost"></td>	
+			</tr>
 		</table>
+		<input name = "token" class = "hidden_form_field">
+		</form>
 	</div>
 	
 

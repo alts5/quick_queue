@@ -1,0 +1,50 @@
+<html>
+<head>
+	<title>Панель администрирования АПК Quick Queue</title>
+	<link rel = 'shortcut icon' href = 'design/favicon.png'>
+	<link rel = 'stylesheet' href = 'design/theme.css'>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src = './jquery-3.7.1.min.js'></script>
+	<script src = 'adminLogin.js'></script>
+	<script src = './jquery.maskedinput.min.js'></script>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap" rel="stylesheet">
+	
+</head>
+<body onload = "checker()">
+	<div class = "header">
+		<span class = "logo_header" onclick = "location.href='../workroom'">
+			<span><img src = 'design/favicon.png' style = "width: 40px"></span>
+			<h1>Система управления очередью Quick Queue</h1>
+		</span>
+	   
+	   <span class = "username_header"></span>
+	   <span class = "exit_header"><img src = 'design/power.svg' style = "width: 20px" onclick = "exitLK()"></span>
+	</div>
+	<div class = "body">
+		<div class = "nav"></div>
+		<div class = "body_header">
+			<h2>Заявители (панель оператора)</h2>
+			<p>В данном разделе Вы можете осуществлять управление очередью</p>
+		</div>	
+		<div class = "flex_div">
+			<button onclick = "window.location.reload()">Обновить список заявителей</button>
+		</div>
+		<table id = "queueListTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>ФИО</th>
+					<th>Выбранные услуги</th>
+					<th>Состояние</th>
+					<th colspan = "3">Действия</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>	
+	<input class = "hidden_form_field" id = "page_name" value = "Staff">
+	<script src = 'app.js'></script>
+</body>
+</html>

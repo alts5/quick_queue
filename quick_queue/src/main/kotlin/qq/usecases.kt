@@ -225,9 +225,17 @@ class SystemServices(): BaseUC() {
             "startTime" to settings.get_setting("startTime")["value"],
             "endTime" to settings.get_setting("endTime")["value"],
             "footerName" to settings.get_setting("footerName")["value"],
-            "logoPath" to settings.get_setting("logoPath")["value"],
+            "logoPath" to settings.get_setting("logoPath")["value"]
             )
         return mappa
+    }
+
+    public fun update_settings(systemMode: String, startTime: String, endTime: String,footerName: String, logoPath: String) {
+        settings.update_field("systemMode", systemMode);
+        settings.update_field("startTime", startTime);
+        settings.update_field("endTime", endTime);
+        settings.update_field("footerName", footerName);
+        settings.update_field("logoPath", logoPath);
     }
 
 }
