@@ -42,7 +42,7 @@ class AdminServices(): BaseUC() {
         var temp = mutableMapOf("waiting" to main.get_count_by_status("Ожидает"),
             "invited" to main.get_count_by_status("Приглашён"),
             "serviced" to main.get_count_by_status("Обслужен"),
-            "rejected" to main.get_count_by_status("Снято")
+            "rejected" to main.get_count_by_status("Снят")
             )
         return temp
     }

@@ -403,7 +403,7 @@ $(document).ready(function() {
 				$('#waiting').text(data["waiting"]);
 				$('#invited').text(data["invited"]);
 				$('#serviced').text(data["serviced"]);
-				$('#reseted').text(data["reseted"]);
+				$('#reseted').text(data["rejected"]);
 			},
 			error: function(data) {
 				$('.error_base').css("display", "block");
