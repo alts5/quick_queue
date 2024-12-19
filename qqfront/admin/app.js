@@ -290,7 +290,6 @@ function getStaffTable(page=pn) {
 							+"<td>" + data[i]["stat"] + "</td>"
 							+ statIcon
 							+ "<td><img src = 'design/reject.svg' title = 'Удалить пользователя' onclick = 'delete_position(\""+ id + "\")'></td>"
-							+ "<td><img src = 'design/services.svg'></td>"
 							+ "</tr>"
 						);
 					}
