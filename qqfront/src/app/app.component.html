@@ -1,9 +1,22 @@
-<router-outlet></router-outlet>
+
 <main class="main">
   <div class="content">
+    @if (this.appData.step=="root"){
+    <app-greeting [data]="appData" (update)="handleChildUpdate($event)"></app-greeting>
+    }
+    @else if (this.appData.step=="login"){
+      <app-login></app-login>
+    }
+    @else if (this.appData.step=="select"){
+      <app-select></app-select>
+    } @else if (this.appData.step=="ready"){
+      <app-ready></app-ready>
+    } @else if (this.appData.step=="soon"){
+      <app-soon [data]="appData" (update)="handleChildUpdate($event)"></app-soon>
+    }
 
   </div>
 </main>
 
 
-<router-outlet/>
+

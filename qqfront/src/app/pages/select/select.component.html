@@ -3,33 +3,13 @@
 
   <div class="container">
     <div class="header">
-      <h2>{{ title }}</h2>
+      <h2>Пожалуйста, выберите интересующие вас услуги</h2>
     </div>
     <div class="dashboard">
       <div><p>Доступные вам услуги</p>
         <div class="item">
-
-          <div class="accService">
-            Наименование услуги fsdjkhfbhdjsafghjasgfhkjasfgsdhajfgdshj
-            fsdfsdf
-          </div>
-          <div class="accService">
-            Наименование услуги
-          </div>
-          <div class="accService">
-            Наименование услуги
-          </div>
-          <div class="accService">
-            Наименование услуги
-          </div>
-          <div class="accService">
-            Наименование услуги
-          </div>
-          <div class="accService">
-            Наименование услуги
-          </div>
-          <div class="accService">
-            Наименование услуги
+          <div class="accService" *ngFor="let service of defaultServices" (click)="selectService(service)">
+            {{service.name}}
           </div>
         </div>
 
@@ -37,15 +17,17 @@
       <div class="divider"></div>
       <div><p>Выбранные Вами услуги</p>
         <div class="item">
-          <div class="secService">
-            Выбранная услуга 1
+          <div class="secService" *ngFor="let service of selectedServices">
+            {{service.name }}
+            <div class="special">{{ service.description }}</div>
+            <div class="delete" (click)="deselectService(service)">×</div>
           </div>
         </div>
       </div>
     </div>
       <div class="button-group">
         <div class="button-center">
-          <div type="button" class="btn btn-secondary">На главную</div>
+          <div type="button" class="btn btn-secondary" (click)="navigateToMain()">На главную</div>
           <div type="submit" class="btn btn-primary">Продолжить</div>
         </div>
       </div>

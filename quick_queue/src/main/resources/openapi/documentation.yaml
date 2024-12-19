@@ -1,0 +1,984 @@
+openapi: "3.1.0"
+info:
+  title: "quick_queue API"
+  description: "quick_queue API"
+  version: "1.0.0"
+servers:
+- url: "https://quick_queue"
+paths:
+  /121queue:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /121ticket:
+    get:
+      description: ""
+      parameters:
+      - name: "hash"
+        in: "header"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /addCategories:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "description"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /addDoctypes:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "description"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /addServices:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "description"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /addStaff:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "name"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "login"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "name"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "login"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /addWindows:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "label"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /authenticate:
+    post:
+      description: ""
+      parameters:
+      - name: "user_login"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "user_password"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "user_login"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "user_password"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  description: ""
+                  value: "null"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Неверный логин или пароль"
+  /check_health:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "OK"
+  /dashboardIndicators:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /deleteCategories:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /deleteDoctypes:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /deleteServices:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /deleteStaff:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /deleteWindows:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /get_mode:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_String"
+  /get_services:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /hideCategories:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /hideDoctypes:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /hideServices:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /hideStaff:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /hideWindows:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /queue:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /showCategories:
+    get:
+      description: "---- Категории заявителей ----"
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /showDoctypes:
+    get:
+      description: "----  Типы документов ----"
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /showServices:
+    get:
+      description: "---- Сервисы ----"
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /showStaff:
+    get:
+      description: "---- Окна ----"
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /showWindows:
+    get:
+      description: "---- Окна ----"
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /systemMode:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /system_settings:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+  /updateSettings:
+    post:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "token"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "systemMode"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "startTime"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "endTime"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "footerName"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "logoPath"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /userInfo:
+    get:
+      description: ""
+      parameters:
+      - name: "token"
+        in: "header"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  description: ""
+                  value: "null"
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+components:
+  schemas:
+    Map:
+      type: "object"
+      properties: {}
+    Map_String:
+      type: "string"

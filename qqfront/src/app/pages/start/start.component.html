@@ -1,0 +1,18 @@
+<router-outlet>
+  <app-time></app-time>
+  <div class="container">
+    <div class="base">
+      <h1>Вы уверены?</h1>
+    </div>
+
+    <div class="button-group">
+      <div class="button-center">
+        <div type="button" class="btn btn-secondary" (click)="navigateToMain()">Нет, отменить</div>
+        <div type="submit" class="btn btn-primary" (click)="navigateToSelect()">Да, продолжить</div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Настраиваемая надпись</p>
+    </div>
+  </div>
+</router-outlet>
