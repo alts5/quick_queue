@@ -24,6 +24,7 @@ class AdminServices(): BaseUC() {
     var doctypes: DocumentTypesDAO = DocumentTypesDAO();
     var categories: CategoriesDAO = CategoriesDAO();
     var services: ServicesDAO = ServicesDAO();
+    var catserv: CategoriesServicesDAO = CategoriesServicesDAO();
 
     public fun check_user_creds(login: String, password: String): String? {
         for (staff_obj in staff.get_all_staff()) {
@@ -149,6 +150,17 @@ class AdminServices(): BaseUC() {
     public fun set_app_status(id: String?, stat: String?, win: String?) {
         main.update_stat(id, stat, win);
     }
+
+    public fun add_new_connect(serv:String?, categ:String?): Boolean {
+        if (serv != null) {
+            if (categ != null) {
+                catserv.insert_categories_services(categ.toInt(), serv.toInt())
+                return true
+            }
+        }
+        return false
+    }
+
 }
 
 class UserServices(): BaseUC() {

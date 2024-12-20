@@ -80,6 +80,26 @@ $('#settings_form').on('submit', function(e) {
 	return false;
 });
 
+$('#connect_form').on('submit', function(e) {
+	e.preventDefault();
+	$('form [name="token"]').val(sessionStorage.getItem('token'));
+	
+	$.ajax({
+			url: 'http://' + pathToBackend + ':8080/addConnect',     
+			method: 'POST',
+			dataType: 'json',
+			contentType: "application/x-www-form-urlencoded",
+			data: $(this).serialize(),
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			}
+		});
+	return false;
+});
+
 
 function delete_position(id, page=pn) {
 	$.ajax({
@@ -436,4 +456,34 @@ $(document).ready(function() {
 	if ($('#queueListTable').length) {
 		getQueueTable();
 	}
-	});
+	if ($('#serviceNameConnect').length) {
+		$.ajax({
+			url: 'http://' + pathToBackend + ':8080/getListServices',     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data){
+				for (var i = 0; i < data.length; i++)
+					$('#serviceNameConnect').append('<option value = "' + data[i]["id"] + '">' + data[i]['name'] + '</option>');
+			},
+			error: function(data) {
+				$('.error_base').css("display", "block");
+			}
+		});
+	}
+	if ($('#categoryNameConnect').length) {
+		$.ajax({
+			url: 'http://' + pathToBackend + ':8080/getListCategories',     
+			method: 'GET',
+			dataType: 'json',
+			data: { token : sessionStorage.getItem('token') },
+			success: function(data){
+				for (var i = 0; i < data.length; i++)	
+					$('#categoryNameConnect').append('<option value = "' + data[i]["id"] + '">' + data[i]['name'] + '</option>');
+			},
+			error: function(data) {
+				$('.error_base').css("display", "block");
+			}
+		});
+	}
+});

@@ -145,6 +145,27 @@ fun Application.configureRouting() {
             }
         }
 
+        post("/addConnect") {
+            val formData = call.receiveParameters()
+            require(formData["token"] != null && formData["service"] != null && formData["category"] != null) { "Не все поля формы заполнены" }
+
+            val token = formData["token"] ?: ""
+            val serv = formData["service"]
+            val categ = formData["category"]
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.add_new_connect(serv, categ)
+                if (data) {
+                    call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.InternalServerError)
+                }
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
         /* ---- Категории заявителей ----*/
 
         get("/showCategories") {
@@ -531,7 +552,19 @@ fun Application.configureRouting() {
             var staffInfo = admin.get_staff_info_by_token(token)
 
             if (staffInfo != null) {
-                var data = admin.get_staff_list()
+                var data = admin.get_categories_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+        get("/getListServices") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_services_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
             } else {
                 call.respond(HttpStatusCode.Unauthorized)

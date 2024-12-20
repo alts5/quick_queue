@@ -69,20 +69,19 @@
 	
 	<div class = 'modal_window_lk' style = "height: 380px" id = "connectForm_window">
 		<h3>Прикрепление сервиса к категории</h3>
-		<form id = 'create_form'>
+		<form id = 'connect_form'>
 		
 			<div>Наименование сервиса</div>
-			<select name = "service" required>
+			<select name = "service" required id = 'serviceNameConnect'>
 			</select>
 			<div>Наименование категории</div>
-			<select name = "category" >
+			<select name = "category" required id = 'categoryNameConnect'>
 			</select>
 			
-			<input name = "id" class = "hidden_form_field">
 			<input name = "token" class = "hidden_form_field">
 		</form>
 		<div class = "modal_buttons_panel">
-			<button class = "modal_button" data-type = "confirm" onclick = "$('#create_form').submit()">Подтвердить</button>
+			<button class = "modal_button" data-type = "confirm" onclick = "$('#connect_form').submit()">Подтвердить</button>
 			<button class = "modal_button" data-type = "cancel" onclick = "modal_window_controller('connectForm_window', 0)">Отменить</button>
 		</div>
 	</div>
