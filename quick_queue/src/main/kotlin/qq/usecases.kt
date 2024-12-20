@@ -146,8 +146,8 @@ class AdminServices(): BaseUC() {
         }
     }
 
-    public fun set_app_status(id: String?, stat: String?) {
-        main.update_stat(id, stat);
+    public fun set_app_status(id: String?, stat: String?, win: String?) {
+        main.update_stat(id, stat, win);
     }
 }
 

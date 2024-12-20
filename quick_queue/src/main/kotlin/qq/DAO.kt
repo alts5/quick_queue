@@ -1064,10 +1064,15 @@ class ApplicantsCategoriesWindowsDAO() : BaseDAO() {
             }.size
     }
 
-    public fun update_stat(id: String?, stat:String?){
+    public fun update_stat(id: String?, stat:String?, win: String?){
         if (id != null) {
         database.update(Main){
             set(Main.stat, stat)
+            if (win != null) {
+                if (!win.equals("")) {
+                    set(Main.windowStaff, win.toInt())
+                }
+            }
                 where {
                     (Main.applicantsWsId eq id.toInt())
                 }

@@ -383,6 +383,8 @@ fun Application.configureRouting() {
             }
         }
 
+
+
         get("/deleteStaff") {
             val formData = call.request.queryParameters
             val token = formData["token"] ?: ""
@@ -499,7 +501,7 @@ fun Application.configureRouting() {
         }
         get("/change_status_in_queue") {
             val formData = call.request.queryParameters
-            call.respondText(Json.encodeToString(admin.set_app_status(formData["person"], formData["stat"])), ContentType.Application.Json, HttpStatusCode.OK)
+            call.respondText(Json.encodeToString(admin.set_app_status(formData["person"], formData["stat"], formData["win"])), ContentType.Application.Json, HttpStatusCode.OK)
         }
 
         post("/updateSettings") {
@@ -517,6 +519,32 @@ fun Application.configureRouting() {
 
             if (staffInfo != null) {
                 var data = system.update_settings(systemMode, startTime, endTime,footerName, logoPath)
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        get("/getListCategories") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_staff_list()
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+
+        get("/showStaff") {
+            val formData = call.request.queryParameters
+            val token = formData["token"] ?: ""
+            var staffInfo = admin.get_staff_info_by_token(token)
+
+            if (staffInfo != null) {
+                var data = admin.get_staff_list()
                 call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
             } else {
                 call.respond(HttpStatusCode.Unauthorized)

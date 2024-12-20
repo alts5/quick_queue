@@ -180,13 +180,17 @@ function getCategoriesTable(page=pn) {
 							+ description + "</td><td>" + data[i]["stat"] + "</td>"
 							+ statIcon
 							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
-							+ "<td><img src = 'design/services.svg' title = 'Список доступных сервисов' onclick = 'categories_avails_services(\""+ id + "\")'></td>"
+							+ "<td><img src = 'design/services.svg' title = 'Список доступных сервисов' onclick = 'modal_window_controller(\"connectForm_window\",1)'></td>"
 							+ "</tr>"
 						);
 					}
 				}
 			}
 		});
+}
+
+function categories_avails_services() {
+	//connectForm_window
 }
 
 function getServicesTable(page=pn) {
@@ -248,7 +252,6 @@ function getWindowsTable(page=pn) {
 							+"<td>" + data[i]["stat"] + "</td>"
 							+ statIcon
 							+ "<td><img src = 'design/reject.svg' title = 'Удалить позицию' onclick = 'delete_position(\""+ id + "\")'></td>"
-							+ "<td><img src = 'design/services.svg'></td>"
 							+ "</tr>"
 						);
 					}
@@ -317,11 +320,14 @@ function getSettings() {
 }
 
 function change_status(id, stat) {
+	var t = '';
+	if (stat == 'Приглашен')
+		t = prompt('Введите номер окна', 1);
 	$.ajax({
 		url: 'http://' + pathToBackend + ':8080/change_status_in_queue',     
 		method: 'GET',
 		dataType: 'json',
-		data: { token : sessionStorage.getItem('token'), 'stat' : stat, 'person' : id },
+		data: { token : sessionStorage.getItem('token'), 'stat' : stat, 'person' : id, win : t},
 		success: function(data) {
 			window.location.reload();
 		}

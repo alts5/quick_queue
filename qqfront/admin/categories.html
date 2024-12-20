@@ -67,6 +67,26 @@
 		</div>
 	</div>
 	
+	<div class = 'modal_window_lk' style = "height: 380px" id = "connectForm_window">
+		<h3>Прикрепление сервиса к категории</h3>
+		<form id = 'create_form'>
+		
+			<div>Наименование сервиса</div>
+			<select name = "service" required>
+			</select>
+			<div>Наименование категории</div>
+			<select name = "category" >
+			</select>
+			
+			<input name = "id" class = "hidden_form_field">
+			<input name = "token" class = "hidden_form_field">
+		</form>
+		<div class = "modal_buttons_panel">
+			<button class = "modal_button" data-type = "confirm" onclick = "$('#create_form').submit()">Подтвердить</button>
+			<button class = "modal_button" data-type = "cancel" onclick = "modal_window_controller('connectForm_window', 0)">Отменить</button>
+		</div>
+	</div>
+	
 	<input class = "hidden_form_field" id = "page_name" value = "Categories">
 	<script src = 'app.js'></script>
 </body>
