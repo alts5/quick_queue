@@ -5,12 +5,12 @@
     <app-greeting [data]="appData" (update)="handleChildUpdate($event)"></app-greeting>
     }
     @else if (this.appData.step=="login"){
-      <app-login></app-login>
+      <app-login [data]="appData" (update)="handleChildUpdate($event)"></app-login>
     }
     @else if (this.appData.step=="select"){
       <app-select></app-select>
     } @else if (this.appData.step=="ready"){
-      <app-ready></app-ready>
+      <app-ready [data]="appData"></app-ready>
     } @else if (this.appData.step=="soon"){
       <app-soon [data]="appData" (update)="handleChildUpdate($event)"></app-soon>
     }

@@ -25,6 +25,10 @@ appData= {
   endTime: new Date(),
   mode: "",
   step: "",
+  cat:0,
+  doc:0,
+  fullName:"",
+  documentData:"",
 }
   constructor(private configService: ConfigService) {
   }

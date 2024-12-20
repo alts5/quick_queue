@@ -1,4 +1,4 @@
-<router-outlet>
+
   <app-time></app-time>
 
   <div class="container">
@@ -16,7 +16,7 @@
           <div class="form-group">
             <label for="applicantCategory">Категория заявителя *</label>
             <select id="applicantCategory" formControlName="applicantCategory" class="form-control">
-              <option *ngFor="let category of applicantCategories" [value]="category">{{ category }}</option>
+              <option *ngFor="let category of cats" [value]="category.id">{{ category.name }}</option>
             </select>
           </div>
         </div>
@@ -24,7 +24,7 @@
           <div class="form-group">
             <label for="documentType">Выберите тип подтверждающего документа *</label>
             <select id="documentType" formControlName="documentType" class="form-control">
-              <option *ngFor="let type of documentTypes" [value]="type">{{ type }}</option>
+              <option *ngFor="let type of docs" [value]="type.id">{{ type.label }}</option>
             </select>
           </div>
 
@@ -46,8 +46,8 @@
 
       <div class="button-group">
         <div class="button-center">
-          <div type="button" class="btn btn-secondary">На главную</div>
-          <div type="submit" class="btn btn-primary">Продолжить</div>
+          <div type="button" class="btn btn-secondary" (click)="toHome()">На главную</div>
+          <div type="submit" class="btn btn-primary" (click)="onSubmit()">Продолжить</div>
         </div>
       </div>
     </form>
@@ -55,4 +55,3 @@
   <div class="footer">
     <p>{{ footerText }}</p>
   </div>
-</router-outlet>

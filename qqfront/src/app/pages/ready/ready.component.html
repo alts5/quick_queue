@@ -6,17 +6,17 @@
     </div>
     <div class="dashboard2">
       <div class="item">
-        <div class="code">A555</div>
-        <p>Это Ваш код. Запомните его и отслеживайте позицию на табло в зале"</p>
+        <div class="code">{{hash.substring(0,4)}}</div>
+        <p>Это Ваш код. Запомните его и отслеживайте позицию на табло в зале</p>
       </div>
       <div class="item">
 
-        <div class="qr-code"><qrcode qrdata="qrUrl"  id="myCanvas" [width]="512"></qrcode></div>
+        <div class="qr-code"><qrcode [qrdata]="link" id="myCanvas" [width]="512"></qrcode></div>
         <p>Или отсканируйте QR-код и отслеживайте позицию в очереди</p>
       </div>
     </div>
     <div class="button-group">
-      <div type="submit" class="btn btn-primary" (click)="navigateToGreeting()">На главную</div>
+      <div type="submit" class="btn btn-primary" (click)="refresh()">На главную</div>
     </div>
     <div class="footer">
       <p>Настраиваемая надпись</p>

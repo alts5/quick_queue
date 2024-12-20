@@ -31,9 +31,10 @@ export class SoonComponent {
   }
 
   refresh() {
-    if(parseTime(this.startTime) < new Date()) {}
-    this.data["step"]="root"
-    this.update.emit({"step":this.data["step"]});
+    if(parseTime(this.startTime) < new Date()) {
+      this.data["step"] = "root"
+      this.update.emit({"step": this.data["step"]});
+    }
   }
 }
 function parseTime(timeString: string): Date {
