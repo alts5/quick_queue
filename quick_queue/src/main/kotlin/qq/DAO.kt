@@ -254,7 +254,7 @@ class CategoriesDAO() : BaseDAO() {
 
     public fun get_all_visible_categories(): List<Map<String, String?>> {
         return database.from(Categories)
-            .select(Categories.name, Categories.description, Categories.categoryId)
+            .select(Categories.name, Categories.description, Categories.categoryId,Categories.stat)
             .where {
                 (Categories.stat notEq "Заблокировано")
             }
@@ -834,7 +834,7 @@ class ApplicantsDocumentsDAO() : BaseDAO() {
         applicant: Int,
         documentType: Int,
         documentNumber: String,
-        documentOwner: String
+        documentOwner: String,
     ) {
         if (applicant > 0 && documentType > 0 && !documentNumber.equals("") && !documentOwner.equals("")) {
             database.insert(ApplicantsDocuments) {

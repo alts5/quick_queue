@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterOutlet} from "@angular/router";
@@ -20,8 +20,11 @@ import {map} from 'rxjs/operators';
   styleUrl: './select.component.scss'
 })
 export class SelectComponent {
+  @Input() data!: { [key: string]: any };
+  @Output() update = new EventEmitter<{ [key: string]: any }>()
   public defaultServices : Service[] = []
   public selectedServices : Service[] = []
+  public select:number[]=[]
   constructor(private router: Router, private servicesService: ServicesService) {}
   ngOnInit() {
     this.servicesService.getServices().pipe(
@@ -57,6 +60,13 @@ export class SelectComponent {
   }
 
   navigateToMain() {
-    this.router.navigate(['/']);
+    this.update.emit({"step":"root"});
+  }
+  SSSend(){
+    //this.data['services']=this.selectedServices.map(obj => obj.id).join(' ')
+    this.data['services']=this.selectedServices[0].id
+    this.data['step']="ready"
+    console.log(this.data['services'])
+    this.update.emit([{"step":"ready"},{"services":this.data['services']}]);
   }
 }

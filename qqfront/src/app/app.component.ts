@@ -11,11 +11,12 @@ import {SelectComponent} from './pages/select/select.component';
 import {ReadyComponent} from './pages/ready/ready.component';
 import {ErrorComponent} from './pages/error/error.component';
 import {SoonComponent} from './pages/soon/soon.component';
+import {LkComponent} from "./pages/lk/lk.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, GreetingComponent, FormsModule, LoginComponent, SelectComponent, ReadyComponent, ErrorComponent, SoonComponent],
+  imports: [RouterOutlet, GreetingComponent, FormsModule, LoginComponent, SelectComponent, ReadyComponent, ErrorComponent, SoonComponent, LkComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -29,6 +30,7 @@ appData= {
   doc:0,
   fullName:"",
   documentData:"",
+  services:"",
 }
   constructor(private configService: ConfigService) {
   }

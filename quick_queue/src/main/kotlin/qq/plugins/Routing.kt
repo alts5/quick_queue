@@ -487,9 +487,26 @@ fun Application.configureRouting() {
             val data = mapOf("hash" to user.simpleApplicant())
             call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
         }
+        get("/reggg") {
+
+            var cat =call.request.queryParameters["category"]?.toIntOrNull()
+            var dt= call.request.queryParameters["dtype"]?.toInt()
+            val dn= call.request.queryParameters["dnumber"].toString()
+            val dO= call.request.queryParameters["downer"].toString()
+            if (cat==null){
+                call.respond(HttpStatusCode.BadRequest,"error")
+                cat=0
+            }
+            if(dt==null){
+                call.respond(HttpStatusCode.BadRequest,"error")
+                dt=0
+            }
+            val data = mapOf("hash" to user.Applicant(cat,dt,dn,dO))
+
+            call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+        }
         get("/121ticket") {
-            val headers = call.request.headers
-            val hash = headers["hash"]
+            val hash = call.request.queryParameters["hash"]
 
             if (hash == null || hash.isEmpty()) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -523,6 +540,24 @@ fun Application.configureRouting() {
         get("/change_status_in_queue") {
             val formData = call.request.queryParameters
             call.respondText(Json.encodeToString(admin.set_app_status(formData["person"], formData["stat"], formData["win"])), ContentType.Application.Json, HttpStatusCode.OK)
+        }
+
+        get("/show_docs") {
+                var data = user.get_acc_doctypes_list()
+            if (data.size >0){
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
+        get("/show_categories") {
+
+            var data = user.get_categories_list()
+            if (data.size >0){
+                call.respondText(Json.encodeToString(data), ContentType.Application.Json, HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.Unauthorized)
+            }
         }
 
         post("/updateSettings") {

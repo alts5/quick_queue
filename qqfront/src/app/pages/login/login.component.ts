@@ -60,8 +60,8 @@ export class LoginComponent implements OnInit {
             this.data['doc']=this.documentForm.get("documentType")?.value
             this.data['fullName']=this.documentForm.get("fullName")?.value
             this.data['documentData']=this.documentForm.get("documentNumber")?.value
-            this.update.emit([{"cat":this.data["cat"]},{"doc":this.data["doc"]},{"fullName":this.data["fullName"]}
-            ,{"documentData":this.data["documentData"]},{"step":this.data["select"]}]);
+            this.update.emit([{"cat": this.data["cat"]}, {"doc": this.data["doc"]}, {"fullName": this.data["fullName"]}
+                , {"documentData": this.data["documentData"]}, {"step": this.data["select"]}]);
         }
     }
     toHome(){

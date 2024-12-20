@@ -7,14 +7,9 @@ import {SelectComponent} from './pages/select/select.component';
 import {StartComponent} from './pages/start/start.component';
 import {ReadyComponent} from './pages/ready/ready.component';
 import {AppComponent} from './app.component';
+import {LkComponent} from "./pages/lk/lk.component";
 
 export const routes: Routes = [
-  {path:'greeting',component :GreetingComponent},
-  { path: 'login', component: LoginComponent},
-    {path: 'ensure', component: StartComponent},
-  {path: 'error', component: ErrorComponent},
-  {path:'soon', component:SoonComponent},
-  {path:'select',component:SelectComponent},
-  {path:'ready',component:ReadyComponent},
   {path:'',component:AppComponent},
+
 ];

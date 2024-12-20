@@ -169,6 +169,9 @@ class UserServices(): BaseUC() {
     var applicant: ApplicantsDAO = ApplicantsDAO();
     var main: ApplicantsCategoriesWindowsDAO = ApplicantsCategoriesWindowsDAO();
     var settings: SettingsDAO = SettingsDAO();
+    var doctypes: DocumentTypesDAO=DocumentTypesDAO();
+    var categories: CategoriesDAO=CategoriesDAO();
+    var appdocs: ApplicantsDocumentsDAO=ApplicantsDocumentsDAO();
 
 
     public fun get_services_with_desc(): List<Map<String, String?>?> {
@@ -192,6 +195,19 @@ class UserServices(): BaseUC() {
         if (app != null) {
             val id = app["id"].toString().toInt()
             main.insert_applicant_category_window(id, null, null)
+        }
+        return key
+    }
+    public fun Applicant(cat: Int,dt:Int,dn:String,dO:String): String {
+        val key = this.getRandomString(32)
+        if (!applicant.insert_applicant(key)) {
+            return ""
+        }
+        val app = applicant.get_applicant_by_hash(key)
+        if (app != null) {
+            val id = app["id"].toString().toInt()
+            main.insert_applicant_category_window(id, cat, null)
+            //appdocs.insert_applicant_service(id, dt, dn,dO)
         }
         return key
     }
@@ -227,9 +243,13 @@ class UserServices(): BaseUC() {
     public fun get_visible_services_list(): List<Map<String, String?>> {
         return services.get_all_visible_services();
     }
+    public fun get_acc_doctypes_list(): List<Map<String, String?>> {
+        return doctypes.get_visible_document_types();
+    }
+    public fun get_categories_list(): List<Map<String, String?>> {
+        return categories.get_all_visible_categories();
 
-
-}
+}}
 
 class SystemServices(): BaseUC() {
     var settings: SettingsDAO = SettingsDAO();
@@ -238,6 +258,7 @@ class SystemServices(): BaseUC() {
     public fun getSysMode(): String? {
         return settings.get_setting("systemMode")["value"];
     }
+
     public fun getSys(): Map<String, String?> {
         var mappa = mapOf(
             "systemMode" to settings.get_setting("systemMode")["value"],
@@ -245,11 +266,17 @@ class SystemServices(): BaseUC() {
             "endTime" to settings.get_setting("endTime")["value"],
             "footerName" to settings.get_setting("footerName")["value"],
             "logoPath" to settings.get_setting("logoPath")["value"]
-            )
+        )
         return mappa
     }
 
-    public fun update_settings(systemMode: String, startTime: String, endTime: String,footerName: String, logoPath: String) {
+    public fun update_settings(
+        systemMode: String,
+        startTime: String,
+        endTime: String,
+        footerName: String,
+        logoPath: String
+    ) {
         settings.update_field("systemMode", systemMode);
         settings.update_field("startTime", startTime);
         settings.update_field("endTime", endTime);
@@ -266,7 +293,4 @@ class SystemServices(): BaseUC() {
         val queue = main.get_all_applicants_categories_windows_join_single();
         return queue
     }
-
-
-
 }

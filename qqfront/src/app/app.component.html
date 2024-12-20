@@ -8,11 +8,13 @@
       <app-login [data]="appData" (update)="handleChildUpdate($event)"></app-login>
     }
     @else if (this.appData.step=="select"){
-      <app-select></app-select>
+      <app-select [data]="appData" (update)="handleChildUpdate($event)"></app-select>
     } @else if (this.appData.step=="ready"){
-      <app-ready [data]="appData"></app-ready>
+      <app-ready [data]="appData" (update)="handleChildUpdate($event)"></app-ready>
     } @else if (this.appData.step=="soon"){
       <app-soon [data]="appData" (update)="handleChildUpdate($event)"></app-soon>
+    } @else if (this.appData.step=="lkk"){
+        <app-lk [data]="appData" (update)="handleChildUpdate($event)"></app-lk>
     }
 
   </div>
